@@ -1,0 +1,27 @@
+model:
+  type: transformer
+
+data:
+  <<: !include ../../vla_foundry/config_presets/data/lbm/lbm_data_params.yaml
+  processor: "none"
+  allow_multiple_epochs: true
+  dataset_manifest:
+    - placeholder
+  dataset_statistics:
+    - placeholder
+  dataset_modality:
+    - robotics
+  dataset_weighting:
+    - 1.0
+  camera_names:
+    - placeholder
+  image_indices:
+    - 0
+  augmentation:
+    image:
+      crop:
+        enabled: false
+
+hparams:
+  per_gpu_batch_size: 1
+  global_batch_size: 1

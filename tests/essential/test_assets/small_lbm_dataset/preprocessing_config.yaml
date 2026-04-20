@@ -1,0 +1,57 @@
+action_fields_config_path: vla_foundry/config_presets/data/lbm/lbm_action_fields.yaml
+auto_tag: true
+camera_names:
+- scene_right_0
+- scene_left_0
+- wrist_left_minus
+- wrist_left_plus
+- wrist_right_minus
+- wrist_right_plus
+camera_rotations: null
+compute_statistics: true
+data_discard_keys:
+- robot__desired__wrench__right::panda
+- robot__desired__joint_torque__right::panda
+- robot__desired__joint_torque__left::panda
+- robot__desired__wrench__left::panda
+- robot__desired__external_wrench__right::panda
+- robot__desired__external_wrench__left::panda
+- robot__desired__joint_torque_external__right::panda
+- robot__desired__joint_torque_external__left::panda
+db_logging: true
+fail_on_nan: false
+filter_still_samples: false
+future_lowdim_steps: 14
+image_indices:
+- -1
+- 0
+image_resizing_method: CENTER_CROP
+jpeg_quality: 5
+language_annotations_path: vla_foundry/config_presets/data/lbm/lbm_language_annotations.yaml
+max_depth: 0
+max_episodes_to_process: 1
+max_padding_left: 3
+max_padding_right: 12
+min_depth: 0
+num_workers: 20
+output_dir: s3://your-bucket/your-path/preprocess_lbm_test/lbm/PickAndPlaceBox/cabot/sim
+output_dir_fixed_path: s3://your-bucket/your-path/vla_foundry_datasets_fixed/
+padding_strategy: copy
+past_lowdim_steps: 1
+point_cloud_num_points: 0
+ray_address: null
+ray_num_cpus: null
+ray_num_gpus_per_worker: 0.25
+resize_images_size:
+- 224
+- 224
+samples_per_shard: 5
+skip_episodes_missing_cameras: false
+skip_git_tagging: false
+source_episodes:
+- s3://your-bucket/your-path/tasks/PickAndPlaceBox/
+still_threshold: 0.05
+stride: 1
+type: spartan
+use_depth_data: false
+validation_episodes_path: null

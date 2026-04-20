@@ -1,0 +1,65 @@
+data:
+  allow_multiple_epochs: false
+  dataset_manifest:
+  - tests/essential/shared/tiny_dataset/image_caption/manifest.json
+  dataset_modality:
+  - image_caption
+  dataset_weighting:
+  - 1.0
+  image_size: 224
+  img_num_tokens: 256
+  num_workers: 1
+  processor: debug
+  seed: 42
+  seq_len: 256
+  type: image_caption
+  shuffle: true
+  shuffle_buffer_size: 2000
+  shuffle_initial: 500
+distributed:
+  ddp_static_graph: false
+  device: cuda:0
+  dist_backend: nccl
+  dist_url: env://
+  fsdp: false
+  fsdp_cpu_offload: false
+  fsdp_reshard_after_forward: false
+  local_rank: 0
+  rank: 0
+  use_distributed: true
+  world_size: 8
+hparams:
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-08
+  force_min_lr: 0.0
+  global_batch_size: 128
+  grad_checkpointing: false
+  grad_clip_norm: null
+  loss_function: cross_entropy
+  lr: 0.0001
+  lr_cooldown_end: 0.0
+  lr_scheduler: cosine
+  optimizer: adamw
+  per_gpu_batch_size: 2
+  precision: amp_bfloat16
+  seed: 42
+  torchcompile: false
+  warmup: '0.1'
+  wd: 0.2
+  world_size: 8
+  z_loss_coefficient: 0.0
+log_every_n_steps: 20
+model:
+  resume_from_checkpoint: null
+  resume_weights_only: false
+  type: vlm_hf
+  hf_pretrained: "microsoft/git-base"
+name: 2025_07_14-22_28_54-model_vlm_hf-lr_0.0001-bsz_128
+num_checkpoints: 5
+num_epochs: null
+remote_sync: s3://your-bucket/your-path/vla_foundry_scratch/models/vlm_paligemma_3b
+save_path: null
+total_train_samples: 14000000
+wandb: true
+wandb_project_name: vla_foundry

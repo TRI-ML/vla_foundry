@@ -1,0 +1,19 @@
+type: diffusion_policy
+num_action_head_repeats: 8
+input_noise_std: 0.05
+diffusion_step_conditioning: add
+vision_language_backbone:
+  freeze: false
+  num_vlm_layers_to_use: 4
+  resume_from_checkpoint: null
+  resume_weights_only: false
+  type: vlm_foundry_backbone
+transformer:
+  <<: !include transformer_410m.yaml
+  vocab_size: 0
+noise_scheduler:
+  num_timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+  clamp_range: [-1.5, 1.5]
+use_flow_matching_scheduler: true

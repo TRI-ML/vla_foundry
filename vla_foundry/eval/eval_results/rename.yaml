@@ -1,0 +1,48 @@
+models:
+  pretrain: LBM-MT
+  1.0_from_scratch: LBM-ST
+  1.0_finetuning: LBM-FT
+
+tasks:
+  BimanualPlaceAppleFromBowlIntoBin: Apple:Bowl→Bin
+  BimanualPlaceFruitFromBowlIntoBin: Fruit:Bowl→Bin
+  BimanualPutRedBellPepperInBin: Pepper:→Bin
+  BimanualPutSpatulaOnPlateFromDryingRack: Spatula:Rack→Plate
+  BimanualPutSpatulaOnPlateFromTable: Spatula:Table→Plate
+  BimanualStackPlatesOnTableFromDryingRack: Stack Plates:Rack→Table
+  BimanualStoreCerealBoxUnderShelf: CerealBox:→Shelf
+  PlaceCupByCoaster: Cup:→Coaster
+  PushCoasterToCenterOfTable: Push Coaster:→Center
+  PushCoasterToMug: Push Coaster:→Mug
+  PutBananaOnSaucer: Banana:→Saucer
+  PutKiwiInCenterOfTable: Kiwi:→Center
+  PutMugOnSaucer: Mug:→Saucer
+  PutSpatulaInUtensilCrock: Spatula:→Crock
+  TurnCupUpsideDown: Flip Cup Down
+  TurnMugRightsideUp: Flip Mug Up
+  BimanualPlaceAvocadoFromBowlIntoBin: Avocado:Bowl→Bin
+  BimanualPutSpatulaOnPlateFromUtensilCrock: Spatula:Crock→Plate
+  PutMugInCenterOfTable: Mug:→Center
+
+task_groups:
+  16 Main Tasks:
+    - BimanualPlaceAppleFromBowlIntoBin
+    - BimanualPlaceFruitFromBowlIntoBin
+    - BimanualPutRedBellPepperInBin
+    - BimanualPutSpatulaOnPlateFromDryingRack
+    - BimanualPutSpatulaOnPlateFromTable
+    - BimanualStackPlatesOnTableFromDryingRack
+    - BimanualStoreCerealBoxUnderShelf
+    - PlaceCupByCoaster
+    - PushCoasterToCenterOfTable
+    - PushCoasterToMug
+    - PutBananaOnSaucer
+    - PutKiwiInCenterOfTable
+    - PutMugOnSaucer
+    - PutSpatulaInUtensilCrock
+    - TurnCupUpsideDown
+    - TurnMugRightsideUp
+  3 Unseen Tasks:
+    - BimanualPlaceAvocadoFromBowlIntoBin
+    - BimanualPutSpatulaOnPlateFromUtensilCrock
+    - PutMugInCenterOfTable

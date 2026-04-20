@@ -1,0 +1,15 @@
+past_lowdim_steps:   5
+future_lowdim_steps: 20
+image_indices:
+- -1
+- 0
+stride: 1
+max_padding_left: 3
+max_padding_right: 15
+padding_strategy: copy
+filter_still_samples: False
+still_threshold: 0.05
+jpeg_quality: 90
+max_episodes_to_process: -1
+fail_on_nan: True
+skip_git_tagging: True

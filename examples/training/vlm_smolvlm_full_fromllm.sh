@@ -1,0 +1,22 @@
+.venv/bin/torchrun --nproc_per_node=8 --nnodes=1 vla_foundry/main.py \
+--model "include vla_foundry/config_presets/models/smolvlm_load_llm.yaml" \
+--model.transformer.resume_from_checkpoint s3://your-bucket/your-path/your_pretrained_llm_run/checkpoints/checkpoint_N.pt \
+--model.transformer.resume_weights_only True \
+--distributed.fsdp True \
+--data.type image_caption \
+--data.processor HuggingFaceTB/SmolVLM2-256M-Video-Instruct \
+--data.dataset_manifest ["s3://your-bucket/your-path/datasets/datacompdr_1b/manifest.jsonl"] \
+--data.dataset_modality ["image_caption"] \
+--data.dataset_weighting [1.0] \
+--data.seq_len 2048 \
+--data.img_num_tokens 64 \
+--data.image_size 224 \
+--model.vit.img_size 224 \
+--model.vit.patch_size 14 \
+--model.vit.projector_pixel_shuffle_factor 2 \
+--total_train_samples 50_000_000 \
+--num_checkpoints 10 \
+--hparams.per_gpu_batch_size 8 \
+--hparams.global_batch_size 512 \
+--hparams.torchcompile True \
+--remote_sync s3://your-bucket/your-path/vla_foundry_scratch/models/vlm_smolvlm_fromllm_samples50m

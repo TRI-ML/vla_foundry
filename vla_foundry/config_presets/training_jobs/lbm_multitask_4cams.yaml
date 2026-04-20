@@ -1,0 +1,83 @@
+total_train_samples: 614_400_000  # 150k steps × global_batch_size 4096
+num_checkpoints: 15 # Model outputs a checkpoint every 10k steps
+
+model:
+  <<: !include ../models/diffusion_policy.yaml
+  input_noise_std: 0.05
+  vision_language_backbone:
+    hf_pretrained: openai/clip-vit-base-patch32
+    freeze_text_encoder: false
+    freeze_image_encoder: false
+  transformer:
+    <<: !include ../models/transformer_410m.yaml
+    is_causal: True
+  noise_scheduler:
+    clamp_range:
+      - -1.5
+      - 1.5
+
+data:
+  <<: !include ../data/lbm/lbm_data_params.yaml
+  <<: !include ../data/diffusion_policy.yaml
+  dataset_manifest:
+    - s3://your-bucket/your-path/vla_foundry_datasets_test/v0.4.3.9/manifest.jsonl
+  dataset_statistics:
+    - s3://your-bucket/your-path/vla_foundry_datasets_test/v0.4.3.9/stats.json
+  dataset_modality:
+    - robotics
+  dataset_weighting:
+    - 1.0
+  allow_multiple_epochs: true
+  camera_names:
+    - scene_right_0
+    - scene_left_0
+    - wrist_left_plus
+    - wrist_right_minus
+  action_fields:
+    - robot__action__poses__left::panda__xyz_relative
+    - robot__action__poses__right::panda__xyz_relative
+    - robot__action__poses__left::panda__rot_6d_relative
+    - robot__action__poses__right::panda__rot_6d_relative
+    - robot__action__grippers__left::panda_hand
+    - robot__action__grippers__right::panda_hand
+  proprioception_fields:
+    - robot__actual__poses__left::panda__xyz
+    - robot__actual__poses__right::panda__xyz
+    - robot__actual__poses__left::panda__rot_6d
+    - robot__actual__poses__right::panda__rot_6d
+  image_indices:
+    - -1
+    - 0
+  lowdim_past_timesteps: 2
+  lowdim_future_timesteps: 8
+  prefetch_factor: 16
+  # Required when mixing datasets with different camera counts (e.g. real 6-cam vs sim 4-cam).
+  # Pads missing images to fixed size so batches can be stacked.
+  pad_missing_images: true
+  augmentation:
+    enabled: true
+    image:
+      color_jitter:
+        enabled: true
+        brightness: 0.2
+        contrast: 0.4
+        saturation: 0.2
+        hue: [-0.05, 0.05]
+      crop:
+        enabled: true
+        shape: [224, 224]
+
+distributed:
+  fsdp: false
+
+hparams:
+  <<: !include ../hparams/diffusion_policy.yaml
+  precision: "float32"
+  lr: 0.00005
+  lr_cooldown_end: 0.000001
+  wd: 0.00000001
+  per_gpu_batch_size: 128
+  global_batch_size: 4096
+
+ema: 
+  enabled: true

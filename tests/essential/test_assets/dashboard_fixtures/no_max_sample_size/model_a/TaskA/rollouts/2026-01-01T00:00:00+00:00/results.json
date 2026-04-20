@@ -1,0 +1,4 @@
+{"evaluations": [
+  {"skill_type": "task_a", "scenario_index": 0, "is_pending": false, "is_success": true, "total_time": 3.0, "failure_message": null},
+  {"skill_type": "task_a", "scenario_index": 1, "is_pending": false, "is_success": false, "total_time": 15.0, "failure_message": null}
+]}

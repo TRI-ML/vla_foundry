@@ -1,0 +1,17 @@
+# VLA with diffusion policy head using a VLM Foundry backbone.
+# The VLM backbone (vlm_1b) is loaded from a checkpoint at runtime via
+# resume_from_checkpoint on the vision_language_backbone.
+# The diffusion transformer (transformer_100m) is a separate head for action prediction.
+type: diffusion_policy
+vision_language_backbone:
+  type: vlm_foundry_backbone
+  num_vlm_layers_to_use: 4
+transformer:
+  <<: !include transformer_100m.yaml
+  is_causal: false
+noise_scheduler:
+  num_timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+  clamp_range: [-3, 3]
+use_flow_matching_scheduler: true

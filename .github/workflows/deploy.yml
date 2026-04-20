@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install mkdocs-material mkdocs-minify-plugin
+
+      - name: Build MkDocs
+        run: mkdocs build --site-dir _site/docs
+
+      - name: Copy homepage and assets
+        run: |
+          cp index.html _site/
+          cp vla_foundry_technical_report.pdf _site/
+          mkdir -p _site/assets
+          mkdir -p _site/assets/carousel_failure
+          mkdir -p _site/assets/carousel_success
+          cp docs/assets/logo_dark.svg _site/assets/
+          cp docs/assets/logo.svg _site/assets/
+          cp docs/assets/tri-logo-dark.png _site/assets/
+          cp docs/assets/favicon.png _site/assets/
+          cp docs/assets/llm_vlm_vla.png _site/assets/
+          cp docs/assets/hf_model_support.png _site/assets/
+          cp docs/assets/pre_trained_models.png _site/assets/
+          cp docs/assets/B_hop_close_current_floor_fixed.mp4 _site/assets/ 2>/dev/null || true
+          cp docs/assets/carousel_failure/*.mp4 _site/assets/carousel_failure/ 2>/dev/null || true
+          cp docs/assets/carousel_success/*.mp4 _site/assets/carousel_success/ 2>/dev/null || true
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          publish_branch: gh-pages

@@ -1,0 +1,28 @@
+defaults:
+  width: 1800
+  height: 600
+  font_scale: 1.5
+  bar_overlay: true
+  output_dir: ./plots
+
+plots:
+  lbm_cs_comparison:
+    paths:
+      - ./eval_results
+    tasks: seen
+    models: [CS/LBM-MT, CS/1.5B-VLA-MT, CS/Qwen3VL2B-MT]
+
+  foundry_vla:
+    paths:
+      - ./eval_results
+    tasks: unseen
+    width: 800
+    models: [OSS/1.5B-VLA-ST, OSS/1.5B-VLA-MT, OSS/1.5B-VLA-FT]
+
+  explicit_list:
+    paths:
+      - ./eval_results
+    tasks:
+      - "Apple:Bowl\u2192Bin"
+      - "Mug:\u2192Saucer"
+    models: [CS/LBM-MT, CS/LBM-ST]

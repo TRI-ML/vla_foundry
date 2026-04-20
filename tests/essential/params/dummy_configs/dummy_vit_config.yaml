@@ -1,0 +1,16 @@
+type: vit
+projector_pixel_shuffle_factor: 2
+resume_from_checkpoint: null
+resume_weights_only: false
+cls_flag: false
+dropout: 1.0
+freeze: false
+hidden_dim: 100
+img_size: 32
+inter_dim: 4300
+interpolation_mode: new_method
+ln_eps: 1.0
+n_heads: 2
+n_layers: 2
+patch_size: 10
+pretrained: best_model

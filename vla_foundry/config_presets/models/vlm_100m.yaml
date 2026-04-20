@@ -1,0 +1,8 @@
+# 100M backbone VLM with a tiny ViT encoder for efficient training.
+# Uses the same transformer architecture as transformer_100m.yaml.
+# vocab_size is resolved from the data processor's tokenizer at runtime
+# (see VLMParams.init_shared_attributes).
+type: vlm
+transformer:
+  <<: !include transformer_100m.yaml
+vit: !include vit_tiny.yaml

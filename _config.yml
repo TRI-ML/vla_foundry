@@ -1,0 +1,34 @@
+# Jekyll configuration for VLA Foundry homepage
+title: VLA Foundry
+description: Train LLMs, VLMs, and VLAs — all in one place
+baseurl: "/vla_foundry"
+url: "https://tri-ml.github.io"
+
+# Build settings
+markdown: kramdown
+
+# Exclude MkDocs files from Jekyll build
+exclude:
+  - docs/
+  - mkdocs.yml
+  - vla_foundry/
+  - tests/
+  - scripts/
+  - experiments/
+  - README.md
+  - requirements.txt
+  - setup.py
+  - pyproject.toml
+  - uv.lock
+  - .venv/
+  - __pycache__/
+  - "*.py"
+  - "*.yaml"
+  - .git/
+  - .github/
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - _site/
+  - serve_local.sh

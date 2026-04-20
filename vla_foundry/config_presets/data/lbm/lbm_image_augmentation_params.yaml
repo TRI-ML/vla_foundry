@@ -1,0 +1,10 @@
+color_jitter:
+  enabled: true
+  brightness: 0.2
+  contrast: 0.4
+  saturation: 0.2
+  hue: [-0.05, 0.05]
+crop:
+  enabled: true
+  shape: [224, 224]
+  mode: random

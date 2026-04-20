@@ -1,0 +1,120 @@
+model:
+  type: diffusion_policy
+  vision_language_backbone:
+    type: clip_backbone
+    hf_pretrained: openai/clip-vit-base-patch32
+    freeze_text_encoder: True
+  #TODO: change this to use the DiT model when it lands.
+  transformer:
+    type: transformer
+    hidden_dim: 512
+    n_layers: 12
+    n_heads: 8
+    max_seq_len: 2048
+    vocab_size: 50432
+    post_embed_norm: true
+    weight_tying: false
+    is_causal: True
+  noise_scheduler:
+    num_timesteps: 100
+    beta_start: 0.0001
+    beta_end: 0.02
+    #TODO: For LBM1, we used diffusion, not flow matching, clamp may need to be adjusted.
+    clamp_range: [-1.0, 1.0]
+  use_flow_matching_scheduler: true
+  use_diffusers_scheduler: false
+  input_noise_std: 0.0
+data:
+  type: robotics
+  language_instruction_types:
+    - original
+    - randomized
+    # We don't use verbose and alternative in this config.
+    #- verbose
+    #- alternative
+  proprioception_fields:
+  # TODO: add relative w/r/t each other as well
+    - robot__actual__poses__left::panda__xyz
+    - robot__actual__poses__left::panda__rot_6d
+    - robot__actual__grippers__left::panda_hand
+    - robot__actual__poses__right::panda__xyz
+    - robot__actual__poses__right::panda__rot_6d
+    - robot__actual__grippers__right::panda_hand
+  action_fields:
+    - robot__action__poses__left::panda__xyz_relative
+    - robot__action__poses__left::panda__rot_6d_relative
+    - robot__action__grippers__left::panda_hand
+    - robot__action__poses__right::panda__xyz_relative
+    - robot__action__poses__right::panda__rot_6d_relative
+    - robot__action__grippers__right::panda_hand
+  intrinsics_fields:
+    - intrinsics.scene_right_0
+    - intrinsics.scene_left_0
+    - intrinsics.wrist_left_minus
+    - intrinsics.wrist_left_plus
+    - intrinsics.wrist_right_minus
+    - intrinsics.wrist_right_plus
+  extrinsics_fields:
+    - extrinsics.scene_right_0
+    - extrinsics.scene_left_0
+    - extrinsics.wrist_left_minus
+    - extrinsics.wrist_left_plus
+    - extrinsics.wrist_right_minus
+    - extrinsics.wrist_right_plus
+  normalization:
+  # TODO: revisit these as they are not what was used in the LBM1 paper.
+    enabled: true
+    method: percentile_1_99
+    scope: global
+    epsilon: 1e-2
+    centered_norm: true
+  image_size: 224
+  processor: "openai/clip-vit-base-patch32"
+  img_num_tokens: 64 #TODO: verify this with LBM1
+  allow_multiple_epochs: True
+  seq_len: 2048 # What even is this??
+  lowdim_past_timesteps: 1
+  lowdim_future_timesteps: 14
+  prefetch_factor: 8
+  num_workers: 8
+  dataset_manifest: 
+    - s3://your-bucket/your-path/vla_foundry_datasets/BimanualPutRedBellPepperInBin/shards/manifest.jsonl
+  dataset_statistics: 
+    - s3://your-bucket/your-path/vla_foundry_datasets/BimanualPutRedBellPepperInBin/shards/stats.json
+  dataset_modality: 
+    - robotics
+  dataset_weighting: 
+    - 1.0
+  camera_names:
+    - scene_right_0
+    - scene_left_0
+    - wrist_left_minus
+    - wrist_left_plus
+    - wrist_right_minus
+    - wrist_right_plus
+  image_indices:
+    - -1
+    - 0
+  pad_missing_images: True
+distributed:
+  fsdp: True
+hparams:
+  precision: "amp_bf16" #TODO: change to float32 / verify this doesn't hurt performance
+  loss_function: "mse"
+  grad_clip_norm: null
+  lr: 1e-4
+  lr_cooldown_end: 1e-4
+  lr_scheduler: "const"
+  per_gpu_batch_size: 16
+  global_batch_size: 32
+  seed: 42
+  warmup: "0.0"
+  force_min_lr: 0.0
+  optimizer: "adamw"
+  wd: 1e-6
+  beta1: 0.95
+  beta2: 0.999
+  eps: 1.0e-8
+  z_loss_coefficient: 0.0
+  grad_checkpointing: false
+  torchcompile: false

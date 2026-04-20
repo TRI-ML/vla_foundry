@@ -1,0 +1,8 @@
+type: transformer_hf
+hidden_dim: 1024
+n_layers: 24
+n_heads: 16
+max_seq_len: 2048
+vocab_size: 151936
+post_embed_norm: false
+weight_tying: false
