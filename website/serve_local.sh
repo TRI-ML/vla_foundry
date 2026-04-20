@@ -1,14 +1,18 @@
 #!/bin/bash
-# Local development server for Jekyll homepage + MkDocs documentation
+# Local development server for Jekyll homepage + MkDocs documentation.
+# Always runs from the repo root, regardless of where it is invoked from.
+set -e
+cd "$(dirname "$0")/.."
 
 echo "Building documentation..."
-mkdocs build --site-dir _site/docs
+mkdocs build -f website/mkdocs.yml --site-dir _site/docs
 
 echo "Copying homepage and assets..."
 cp index.html _site/
 mkdir -p _site/assets
 mkdir -p _site/assets/carousel_failure
 mkdir -p _site/assets/carousel_success
+cp assets/vla_foundry_technical_report.pdf _site/assets/
 cp docs/assets/logo_dark.svg _site/assets/
 cp docs/assets/logo.svg _site/assets/
 cp docs/assets/tri-logo-dark.png _site/assets/

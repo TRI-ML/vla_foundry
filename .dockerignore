@@ -46,16 +46,13 @@ examples/
 experiments/
 tutorials/
 assets/
-HOMEPAGE_README.md
+website/
 README.md
 FAQ.md
 CONTRIBUTING.md
 RELEASE_INTEGRATION_LOG.md
 LICENSE
-mkdocs.yml
-_config.yml
 index.html
-serve_local.sh
 
 # Local run outputs / data
 outputs/

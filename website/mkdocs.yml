@@ -5,9 +5,12 @@ repo_url: https://github.com/TRI-ML/vla_foundry
 repo_name: TRI-ML/vla_foundry
 edit_uri: edit/main/docs/
 
+# mkdocs.yml lives in website/; content lives in the sibling docs/ folder.
+docs_dir: ../docs
+
 theme:
   name: material
-  custom_dir: docs/overrides
+  custom_dir: ../docs/overrides
   logo: assets/logo_dark.svg
   favicon: assets/logo.svg
   font:

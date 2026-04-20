@@ -22,7 +22,7 @@ jobs:
         run: pip install mkdocs-material mkdocs-minify-plugin
 
       - name: Build MkDocs
-        run: mkdocs build --site-dir _site/docs
+        run: mkdocs build -f website/mkdocs.yml --site-dir _site/docs
 
       - name: Copy homepage and assets
         run: |
