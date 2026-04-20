@@ -69,7 +69,7 @@ python vla_foundry/data/preprocessing/preprocess_captionshf_to_tar.py --cluster 
 
 # Converting a text Hugging Face dataset to tar shards
 ```bash
-python vla_foundry/data/preprocessing/preprocess_untokenized_to_tar.py --s3_input_path s3://your-bucket/your-path/hf_datasets/fineweb-edu-350BT --s3_output_path s3://your-bucket/your-path/datasets/text/fineweb-edu-350BT --tmp_dir /tmp/finewebshards
+python vla_foundry/data/preprocessing/preprocess_untokenized_to_tar.py --s3_input_path s3://your-bucket/your-path/hf_datasets/fineweb-edu-350BT --s3_output_path s3://your-bucket/your-path/vla_foundry_datasets/text/fineweb-edu-350BT --tmp_dir /tmp/finewebshards
 ```
 
 # Converting LeRobot to tar shards

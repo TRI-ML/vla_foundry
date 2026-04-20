@@ -6,7 +6,7 @@ Common errors:
     - Run `$ ulimit -n 65535  # or at least 4096`
 - `raise ReadError("empty file") from None` during training
     - This likely means the number of workers is too high. Reduce `--data.num_workers`. 
-- [Unable to locate AWS credentials](#setting-up-aws-sso)
+- [Unable to locate AWS credentials](#setting-up-aws-credentials)
 
 ## Failing pytest tests due to Hugging Face errors
 This error usually shows up as something like 

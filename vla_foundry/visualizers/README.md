@@ -4,19 +4,19 @@ This directory contains the visualization tools for the VLA Foundry project. The
 
 ## Example Usage
 
-To see an example of how to use the interface, you can run
+To see an example of how to use the interface, you can run (from the repo root):
 
 ```
-VISUALIZER=rerun uv run example_usage.py
+VISUALIZER=rerun uv run vla_foundry/visualizers/example_usage.py
 ```
 or
 ```
-VISUALIZER=wandb WANDB_PROJECT=my_project uv run example_usage.py
+VISUALIZER=wandb WANDB_PROJECT=my_project uv run vla_foundry/visualizers/example_usage.py
 ```
 
 If you run simply
 ```
-uv run example_usage.py
+uv run vla_foundry/visualizers/example_usage.py
 ```
 visualization will default to `disabled` if no backend is selected.
 
@@ -26,7 +26,7 @@ visualization will default to `disabled` if no backend is selected.
 - The `visualizer.py` facade automatically disables visualization if no backend is selected.
 - Use the `VISUALIZER` environment variable to control the backend selection.
 - For more advanced use cases, refer to the backend-specific files (`rerun_backend.py`, `wandb_backend.py`, etc.).
-- By default, the rerun backend is viewable view the browser at a url such as
+- By default, the rerun backend is viewable via the browser at a url such as
   ```http://localhost:9090/?url=rerun%2Bhttp://127.0.0.1:9876/proxy```. Note that
   you must forward ports 9090 and 9876.
 
@@ -236,7 +236,7 @@ vz.shutdown()
 
 ## Rank Variable Usage in Visualization
 
-TODO: This library has not been tested in a multi-GPU setting yet.
+> **Note:** This library has not been tested in a multi-GPU setting yet.
 
 ### Purpose of the Rank Variable
 The `rank` variable is used to namespace logs in multi-node or multi-process environments. This ensures that logs from different processes or nodes do not overwrite each other and can be easily distinguished during debugging or visualization.

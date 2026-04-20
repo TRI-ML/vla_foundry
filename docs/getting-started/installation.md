@@ -73,6 +73,6 @@ uv run pytest tests/essential -v
 !!! tip
     If tests fail with Hugging Face errors, see the [FAQ](../faq.md) for troubleshooting HF token setup.
 
-## AWS SSO Setup
+## AWS Credentials Setup
 
-If you need access to S3 datasets, configure AWS SSO. See the [FAQ](../faq.md#setting-up-aws-sso) for detailed instructions.
+If you need access to S3 datasets, configure AWS credentials. See the [FAQ](../faq.md#setting-up-aws-credentials) for detailed instructions.

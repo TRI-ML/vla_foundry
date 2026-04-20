@@ -1,3 +1,4 @@
+#!/bin/bash
 .venv/bin/torchrun --nproc_per_node=8 --nnodes=1 vla_foundry/main.py \
 --model "include vla_foundry/config_presets/models/smolvlm_load_llm.yaml" \
 --model.transformer.resume_from_checkpoint s3://your-bucket/your-path/your_pretrained_llm_run/checkpoints/checkpoint_N.pt \

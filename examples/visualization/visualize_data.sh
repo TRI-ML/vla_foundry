@@ -3,7 +3,7 @@
 #
 # Usage:
 #   # S3 paths:
-#   ./visualize_data.sh --num_episodes=5 s3://your-bucket/your-path/vla_foundry_datasets/BimanualPlaceTtoolOnPegboard
+#   ./visualize_data.sh --num_episodes=5 s3://your-bucket/your-path/vla_foundry_datasets/BimanualPutRedBellPepperInBin
 #   ./visualize_data.sh --ordered --num_episodes=10 s3://...
 #
 #   # Local paths:

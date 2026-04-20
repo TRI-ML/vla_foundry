@@ -302,7 +302,7 @@ def main():
 
     environment = {
         "SM_USE_RESERVED_CAPACITY": "1",
-        "WANDB_PROJECT": "vla_foundry",
+        "WANDB_PROJECT": os.environ.get("WANDB_PROJECT", "vla_foundry"),
         "NCCL_DEBUG": "INFO",
         "TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS": "1",
         "SAGEMAKER_PROGRAM": "/opt/ml/code/vla_foundry/main.py",

@@ -1,3 +1,4 @@
+#!/bin/bash
 .venv/bin/torchrun --nproc_per_node=3 --nnodes=1 vla_foundry/main.py \
 --model.type transformer \
 --model "include vla_foundry/config_presets/models/transformer_11m.yaml" \

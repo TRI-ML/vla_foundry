@@ -1,3 +1,4 @@
+#!/bin/bash
 export TORCHDYNAMO_CAPTURE_SCALAR_OUTPUTS=1
 .venv/bin/torchrun --nproc_per_node=3 --nnodes=1 vla_foundry/main.py \
 --model "include vla_foundry/config_presets/models/vlm_3b.yaml" \

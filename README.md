@@ -46,7 +46,7 @@ uv sync
 uv pip install -e .
 ```
 The recommended workflow is to run scripts directly with `uv` via `uv run <script> <args>`.
-Alternatively, to activate the virtual env you can then run `source .venv/bin/activate` then proceed as usual (though should still use `uv` for package and depedendency management).
+Alternatively, to activate the virtual env you can then run `source .venv/bin/activate` then proceed as usual (though should still use `uv` for package and dependency management).
 
 ## Contributing Guidelines
 Please see [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -55,7 +55,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md)
 For some common questions or errors, please check the [FAQ.md](FAQ.md) file for troubleshooting tips.
 
 ## Quickstart
-The main entrypoint is `vla_foundry/main.py`. Please see [the guide](FAQ.md#setting-up-aws-sso) to complete the AWS SSO configuration beforehand.
+The main entrypoint is `vla_foundry/main.py`. Please see [the guide](FAQ.md#setting-up-aws-credentials) to complete the AWS credentials configuration beforehand.
 
 An example command is something like this:
 ```bash
@@ -149,10 +149,10 @@ We generally want to have some separation of concerns here. For instance, we do 
 
 
 #### 1.3 Shared Arguments
-- Sometimes attributes may need to be accessed in multiple param classes. For example, we may want to have both `cfg.experiment.seed` and `cfg.data.seed`.
+- Sometimes attributes may need to be accessed in multiple param classes. For example, we may want to have both `cfg.hparams.seed` and `cfg.data.seed`.
 - To prevent the user needing to supply the same argument twice, and to ensure coherence, we pick an "owner" class for the attribute, then for the non-owner class, we list the attribute under the `init_shared_attributes()` function which is automatically called after initialization and populates all shared attributes.
     - As a rule of thumb, whichever component is the _source of truth_ for a parameter should own it. For example, the model may require access to the `action_dim` parameter, but this is inherently tied to the dataset, so we prefer this to be in `DataParams` then shared to `ModelParams` instead of the other way around.
-       - This might require some conceptual understanding of what the parameter fundamentally is for, and for some parameters, there might be some room for debate, but in practice, as long as `init_shared_attribtes()` is implemented properly, the selection of "owner" will not have any meaningful effect outside of code style and readability.
+       - This might require some conceptual understanding of what the parameter fundamentally is for, and for some parameters, there might be some room for debate, but in practice, as long as `init_shared_attributes()` is implemented properly, the selection of "owner" will not have any meaningful effect outside of code style and readability.
     - `init_shared_attributes(self, cfg)` is called with full access to the entire `TrainExperimentParams` config object. This means that each subclass (and so on recursively) can set shared params from any of the `TrainExperimentParams` parameters.
 
 - We can also have arguments with the same name but are not shared. For instance, `cfg.data.seq_len` and `cfg.model.seq_len` are defined separately. The one in `cfg.data` controls the padding/truncation during dataloading, while the one in `cfg.model` is used for the rotary embedding.
@@ -256,7 +256,7 @@ Robotics data requires some special handling (e.g., normalization) that may not 
 ### 3. Dataloading Pipeline
 We use [webdatasets](https://github.com/webdataset/webdataset) to load the data. Each modality (e.g., image+caption, interleaved, image+actions) has its own pipeline where all the processing steps are defined at a high-level. This involves steps like untarring, shuffling, batching, etc. An example is [vla_foundry/data/pipelines/image_caption.py](vla_foundry/data/pipelines/image_caption.py).
 
-You wil notice that in that file, there is a `self.processor` class that is invoked as a step within the pipeline. This is where all the lower-level processing operations (e.g., normalization, tokenization, padding) are abstracted to. An example is [vla_foundry/data/processor/stable_diffusion_processor.py](vla_foundry/data/processor/stable_diffusion_processor.py).
+You will notice that in that file, there is a `self.processor` class that is invoked as a step within the pipeline. This is where all the lower-level processing operations (e.g., normalization, tokenization, padding) are abstracted to. An example is [vla_foundry/data/processor/stable_diffusion_processor.py](vla_foundry/data/processor/stable_diffusion_processor.py).
 
 ### 4. Model Saving / Loading
 Models checkpoints are saved locally to the path in `cfg.save_path`. If `cfg.remote_sync` is set, then it will save to that path on s3 as well. Save frequency is per checkpoint. The number of checkpoints is determined by the `--num_checkpoints` argument, and the size of a checkpoint is equal to `--total_train_samples` divided by `--num_checkpoints`.

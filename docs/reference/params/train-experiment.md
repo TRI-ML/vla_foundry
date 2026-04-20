@@ -21,7 +21,7 @@
 | `log_every_n_steps` | `int` | `20` | Frequency (in training steps) of metric logging. |
 | `log_level` | `str` | `"INFO"` | Python logging level. |
 | `remote_sync` | `str` | `None` | S3 path to which the experiment directory is periodically synced. |
-| `remote_sync_fixed_path` | `str` | `"s3://..."` | Fixed S3 path for model syncing (internal use). |
+| `remote_sync_fixed_path` | `str` | `"s3://your-bucket/your-path/vla_foundry_models_fixed/"` | Sibling S3 path where each run is also synced under its UUID, so runs can be located by ID regardless of `remote_sync`. |
 
 ### Training Budget
 

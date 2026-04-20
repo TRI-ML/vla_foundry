@@ -1,15 +1,16 @@
-The following README specifially discusses the robotics data preprocessing file [preprocess_robotics_to_tar.py](preprocess_robotics_to_tar.py). For a more general README, please see the [README in the scripts folder](./../README.md).
-
 # Robotics Data Preprocessing
-Because we may want robotics data from different sources, we create a unified structure and a unified script to handle the preprocessing. This lets us avoid having to reimplement certain functionalities like ray parallelism. Instead, these functionalities are shared, and the dataset-specific processing logic is moved to the individual converters inside [robotics/converters](robotics/converters/).
+
+This README specifically discusses the robotics data preprocessing file [preprocess_robotics_to_tar.py](../preprocess_robotics_to_tar.py). For a more general README, please see the [README in the scripts folder](./../README.md).
+
+Because we may want robotics data from different sources, we create a unified structure and a unified script to handle the preprocessing. This lets us avoid having to reimplement certain functionalities like ray parallelism. Instead, these functionalities are shared, and the dataset-specific processing logic is moved to the individual converters inside [converters/](converters/).
 
 ## 1. Converters
 To select which dataset format to use, you can use the `--type` argument. This will route your script to the correct converter class for your dataset. You can then supply class-specific parameters directly.
 
-All converter classes inherit from the base class `BaseRoboticsConverter`. The [preprocess_robotics_to_tar.py](preprocess_robotics_to_tar.py) interfaces with converter objects by calling methods such as `discover_episodes` and `process_episode`. 
+All converter classes inherit from the base class `BaseRoboticsConverter`. The [preprocess_robotics_to_tar.py](../preprocess_robotics_to_tar.py) interfaces with converter objects by calling methods such as `discover_episodes` and `process_episode`. 
 
 ### 1.1 Adding a New Dataset Source
-To support a new dataset source, create a new class inside `converters`, register your class in `converters/__init__.py`, add a custom `PreprocessParams` (see [1.2 Preprocessing Parameters](#preprocessing-parameters)), then define the following methods (`converters/base.py` also provides some docstring guides for how to populate these methods).
+To support a new dataset source, create a new class inside `converters`, register your class in `converters/__init__.py`, add a custom `PreprocessParams` (see [1.2 Preprocessing Parameters](#12-preprocessing-parameters)), then define the following methods (`converters/base.py` also provides some docstring guides for how to populate these methods).
 - `discover_episodes`: Given a list of paths, return a list of full paths for each episode.
 - `process_episode`: This is pre-filled in `base.py` with the logic to extract the necessary fields, as well as the parallelism for uploading. The functioning of this method depends on the other methods listed below. For most cases, you probably will not need to touch this specific function, and it should work properly once all the other methods are defined. 
 - `load_episode_data`: Takes in `episode_path` and reads it, then extracts and returns `episode_data`. This `episode_data` is what is passed to the other functions to extract from, so this `episode_data` return format can be any format you wish.
@@ -20,11 +21,11 @@ To support a new dataset source, create a new class inside `converters`, registe
     - `extract_metadata_data`: Same as above but for metadata. 
 - `extract_sample_data`: The previously defined `extract_*_data` functions contain data for all the timesteps. This function takes in `anchor_timesteps` and uses it to extract the data relevant to the current frame. It returns `sample_images`, `sample_lowdim`, `sample_metadata`, and `language_instructions`, which correspond to the fields in our output tar shards.
 
-For examples on how to fill out these methods above, see [robotics/converters/spartan.py](robotics/converters/spartan.py) and [robotics/converters/lerobot.py](robotics/converters/lerobot.py)
+For examples on how to fill out these methods above, see [converters/spartan.py](converters/spartan.py) and [converters/lerobot.py](converters/lerobot.py)
 
 
 ### 1.2 Preprocessing Parameters
-The `preprocess_robotics_to_tar.py` file reads parameters from the `PreprocessParams` class from [robotics/preprocess_params.py](robotics/preprocess_params.py). This inherits from the `BaseParams` class, and parsing is done with the `draccus` parser. These `PreprocessParams` is passed to the `BaseRoboticsConverter` initializer, and can be accessed by calling `self.cfg`. 
+The `preprocess_robotics_to_tar.py` file reads parameters from the `PreprocessParams` class from [preprocess_params.py](preprocess_params.py). This inherits from the `BaseParams` class, and parsing is done with the `draccus` parser. These `PreprocessParams` is passed to the `BaseRoboticsConverter` initializer, and can be accessed by calling `self.cfg`. 
 
 The `PreprocessParams` has multiple subclasses such as `SpartanPreprocessParams` or `LeRobotPreprocessParams`, each with their own class-specific attributes. Users can specify the appropriate class to use the `--type` flag.
 
@@ -38,7 +39,7 @@ The preprocessing happens through two Ray phases. In the first phase, we read th
 
 
 ## 3. Statistics Computation
-Statistics computation is done in [robotics/preprocess_statistics.py](robotics/preprocess_statistics.py). The `preprocess_robotics_to_tar.py` creates a Ray actor object, which is passed as an argument when the converter classes run the preprocessing. This class contains running tallies of various fields, together with running percentages. At the end of everything, we call `statistics_ray_actor.get_statistics.remote()`, which computes and returns the final statistics. These are uploaded as `stats.json` in the `output_dir/shards` folder.
+Statistics computation is done in [preprocess_statistics.py](preprocess_statistics.py). The `preprocess_robotics_to_tar.py` creates a Ray actor object, which is passed as an argument when the converter classes run the preprocessing. This class contains running tallies of various fields, together with running percentages. At the end of everything, we call `statistics_ray_actor.get_statistics.remote()`, which computes and returns the final statistics. These are uploaded as `stats.json` in the `output_dir/shards` folder.
 
 
 ## 4. Input and Output Structure

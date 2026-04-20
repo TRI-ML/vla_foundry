@@ -38,7 +38,7 @@ class TrainExperimentParams(BaseParams):
     wandb: bool = field(default=True)
     db_logging: bool = field(default=True)  # Log training runs to DynamoDB for dashboard tracking
     wandb_entity: str = field(default=os.getenv("WANDB_ENTITY"))
-    wandb_project_name: str = field(default="vla_foundry")
+    wandb_project_name: str = field(default=os.getenv("WANDB_PROJECT", "vla_foundry"))
     wandb_tags: list[str] = field(default_factory=list)
     log_every_n_steps: int = field(default=20)
     log_level: str = field(default="INFO")
