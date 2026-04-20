@@ -1,0 +1,78 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore local virtual environments
+.venv/
+
+# Ignore Git stuff
+.git/
+.gitignore
+
+# Ignore local files
+.env
+checkpoints/
+experiments/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.temp
+logs/
+tmp/
+temp/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Ignore documentation and readme files (if not needed in container)
+README.md
+*.md
+docs/
+
+# Ignore test files and directories
+tests/
+test_*
+*_test.py
+
+# Ignore data files (if not needed in container)
+data/
+datasets/
+*.csv
+*.json
+*.xml
+*.txt
+
+# Ignore secrets and config files
+secrets.env
+config.local.*
+*.key
+*.pem
+
+# Ignore build artifacts
+build/
+dist/
+*.egg-info/
+
+# Ignore local results
+downloaded_results/
+
+# Ignore ray things
+ray_mount/
+
+# Ignore wandb logs
+wandb/

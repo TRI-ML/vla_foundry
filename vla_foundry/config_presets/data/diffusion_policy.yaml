@@ -1,0 +1,14 @@
+type: robotics
+image_size: 224
+processor: openai/clip-vit-base-patch32
+processor_kwargs:
+  size:
+    height: 224
+    width: 224
+img_num_tokens: 64
+allow_multiple_epochs: true
+seq_len: 2048
+lowdim_past_timesteps: 1
+lowdim_future_timesteps: 14
+prefetch_factor: 8
+num_workers: 8

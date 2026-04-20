@@ -1,0 +1,37 @@
+action_key_fields:
+  - robot__action__poses__right::panda__xyz
+  - robot__action__poses__right::panda__rot_6d
+  - robot__action__poses__left::panda__xyz
+  - robot__action__poses__left::panda__rot_6d
+  - robot__action__grippers__right::panda_hand
+  - robot__action__grippers__left::panda_hand
+
+action_index_fields:
+  - 3
+  - 9
+  - 12
+  - 18
+  - 19
+  - 20
+
+# TODO: Add a field for what field should be used as a reference field
+# this will be useful for supporting left w.r.t. right or vice versa
+pose_groups:
+  - name: "left_panda_action"
+    position_key: "robot__action__poses__left::panda__xyz"
+    rotation_key: "robot__action__poses__left::panda__rot_6d"
+  - name: "right_panda_action"
+    position_key: "robot__action__poses__right::panda__xyz"
+    rotation_key: "robot__action__poses__right::panda__rot_6d"
+  - name: "left_panda_desired"
+    position_key: "robot__desired__poses__left::panda__xyz"
+    rotation_key: "robot__desired__poses__left::panda__rot_6d"
+  - name: "right_panda_desired"
+    position_key: "robot__desired__poses__right::panda__xyz"
+    rotation_key: "robot__desired__poses__right::panda__rot_6d"
+  - name: "left_panda_actual"
+    position_key: "robot__actual__poses__left::panda__xyz"
+    rotation_key: "robot__actual__poses__left::panda__rot_6d"
+  - name: "right_panda_actual"
+    position_key: "robot__actual__poses__right::panda__xyz"
+    rotation_key: "robot__actual__poses__right::panda__rot_6d"

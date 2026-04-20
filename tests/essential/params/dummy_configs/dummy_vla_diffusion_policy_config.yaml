@@ -1,0 +1,29 @@
+type: diffusion_policy
+vision_language_backbone:
+  type: vlm_backbone
+  hf_pretrained: HuggingFaceTB/SmolVLM2-256M-Video-Instruct
+  num_vlm_layers_to_use: 4
+transformer:
+  type: transformer
+  vocab_size: 1000
+  hidden_dim: 128
+  n_layers: 2
+  n_heads: 4
+  max_seq_len: 2048
+  ffn_type: swiglu
+  attn_name: torch_attn
+  norm_eps: 1.0e-05
+  norm_type: default_layer_norm
+  positional_embedding_type: rotary
+  post_embed_norm: false
+  qk_norm: false
+  resume_from_checkpoint: null
+  resume_weights_only: false
+  weight_tying: false
+noise_scheduler:
+  num_timesteps: 100
+  beta_start: 0.0001
+  beta_end: 0.02
+use_flow_matching_scheduler: true
+diffusion_step_conditioning: add
+action_dim: 7

@@ -1,0 +1,38 @@
+# Tiny VLA diffusion policy training job for smoke testing.
+# Uses local test data and small model configs for fast iteration.
+# Self-contained: SmolVLM2-256M VLM backbone (no pretrained VLA Foundry checkpoint needed).
+model:
+  <<: !include ../models/vla_diffusion_11m.yaml
+data:
+  <<: !include ../data/lbm/lbm_data_params.yaml
+  <<: !include ../data/vla_diffusion.yaml
+  processor: HuggingFaceTB/SmolVLM2-256M-Video-Instruct
+  image_size: 512
+  img_num_tokens: 64
+  seq_len: 512
+  dataset_manifest:
+    - tests/essential/test_assets/small_lbm_dataset/manifest.jsonl
+  dataset_statistics:
+    - tests/essential/test_assets/small_lbm_dataset/stats.json
+  dataset_modality:
+    - robotics
+  dataset_weighting:
+    - 1.0
+  camera_names:
+    - scene_right_0
+    - scene_left_0
+    - wrist_left_minus
+    - wrist_left_plus
+    - wrist_right_minus
+    - wrist_right_plus
+  image_indices:
+    - -1
+    - 0
+  num_workers: 0
+  prefetch_factor: null
+distributed:
+  fsdp: false
+hparams:
+  <<: !include ../hparams/diffusion_policy.yaml
+  per_gpu_batch_size: 1
+  global_batch_size: 1

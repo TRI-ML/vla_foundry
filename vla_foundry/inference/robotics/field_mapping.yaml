@@ -1,0 +1,73 @@
+# Field mapping configuration for LBM policy
+# Maps observation fields from robot gym to dataset fields
+# Only includes mappings that can't be derived from the checkpoint config
+
+# Camera mappings
+cameras:
+  scene_right_0: "6CD146030E99"
+  scene_left_0: "6CD146031C25"
+  wrist_left_minus: "BFS_23595718"
+  wrist_left_plus: "BFS_23595721"
+  wrist_right_minus: "BFS_23595722"
+  wrist_right_plus: "BFS_23595725"
+
+# Observation field path mappings
+# Maps dataset field names to observation dot-notation paths
+field_paths:
+  # Proprioception fields
+  "robot__actual__poses__right::panda__xyz": 
+    - "right::panda"
+    - "translation"
+  "robot__actual__poses__left::panda__xyz": 
+    - "left::panda"
+    - "translation"
+  "robot__actual__poses__right::panda__rot_6d": 
+    - "right::panda"
+    - "rotation_6d"
+  "robot__actual__poses__left::panda__rot_6d":  
+    - "left::panda"
+    - "rotation_6d"
+  "robot__actual__joint_position__left::panda": 
+    - "left::panda"
+  "robot__actual__joint_position__right::panda": 
+    - "right::panda"
+  "robot__actual__grippers__left::panda_hand":  
+    - "left::panda_hand"
+  "robot__actual__grippers__right::panda_hand": 
+    - "right::panda_hand"
+  
+  # Action fields
+  "robot__action__poses__left::panda__xyz": 
+    - "left::panda"
+    - "translation"
+  "robot__action__poses__right::panda__xyz": 
+    - "right::panda"
+    - "translation"
+  "robot__action__poses__left::panda__rot_6d": 
+    - "left::panda"
+    - "rotation_6d"
+  "robot__action__poses__right::panda__rot_6d": 
+    - "right::panda"
+    - "rotation_6d"
+  "robot__action__grippers__left::panda_hand": 
+    - "left::panda_hand"
+  "robot__action__grippers__right::panda_hand": 
+    - "right::panda_hand"
+
+  # Desired fields
+  "robot__desired__poses__left::panda__xyz": 
+    - "left::panda"
+    - "translation"
+  "robot__desired__poses__right::panda__xyz": 
+    - "right::panda"
+    - "translation"
+  "robot__desired__poses__left::panda__rot_6d":
+    - "left::panda"
+    - "rotation_6d"
+  "robot__desired__poses__right::panda__rot_6d":
+    - "right::panda"
+    - "rotation_6d"
+  "robot__desired__grippers__left::panda_hand":
+    - "left::panda_hand"
+  "robot__desired__grippers__right::panda_hand":
+    - "right::panda_hand"

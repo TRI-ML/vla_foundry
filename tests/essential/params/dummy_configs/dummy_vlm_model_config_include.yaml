@@ -1,0 +1,25 @@
+type: vlm
+image_token_id: 257152
+resume_from_checkpoint: null
+resume_weights_only: false
+transformer:
+  attn_name: torch_attn
+  ffn_type: swiglu
+  hidden_dim: 128 
+  max_seq_len: 16
+  n_heads: 2
+  n_layers: 2
+  norm_eps: 1.0e-05
+  norm_type: default_layer_norm
+  positional_embedding_type: rotary
+  post_embed_norm: false
+  qk_norm: false
+  resume_from_checkpoint: null
+  resume_weights_only: false
+  type: transformer
+  vocab_size: 1000
+  weight_tying: false
+type: vlm
+vit:
+  !include dummy_vit_config.yaml
+

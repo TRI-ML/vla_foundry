@@ -1,0 +1,147 @@
+[project]
+name = "vla_foundry"
+version = "0.1.0"
+description = "A codebase for training Large Behavior Models"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "torch==2.7.0",
+    "transformers==4.57.3",
+    "webdataset==0.2.111",
+    "torchvision==0.22.0",
+    "timm==1.0.15",
+    "wandb>=0.21.1",
+    "s3fs>=2025.7.0",
+    "boto3>=1.39.5",
+    "botocore>=1.39.17",
+    "moto>=5.1.21",
+    "nest-asyncio",
+    "accelerate==1.7.0",
+    "sentencepiece==0.2.0",
+    "matplotlib>=3.10.5",
+    "tqdm>=4.67.1",
+    "scipy>=1.15.3",
+    "ruff>=0.12.0",
+    "pytest>=8.4.1",
+    "huggingface-hub>=0.33.0",
+    "diffusers>=0.34.0",
+    "einops>=0.8.1",
+    "draccus>=0.11.5",
+    "gitpython>=3.1.0",
+    "ray[default]>=2.48.0",
+    "click>=8.1.7,<8.3.0",
+    "open-clip-torch>=2.32.0",
+    "protobuf>=5.29.0",
+    "opencv-python>=4.11.0.86",
+    "tdigest-rs>=0.1.0",
+    "tifffile>=2024.8.10",
+    "num2words>=0.5.14",
+    "rosbags>=0.11.0",
+]
+
+[dependency-groups]
+# Add `--group sagemaker` to sync the env with sagemaker
+# or run a script with sagemaker installed.
+sagemaker = [
+    "sagemaker>=2.251.0,<3.0.0",  # v3.0 has breaking changes (aws_batch removed)
+]
+
+# Add `--group preprocessing` to install preprocessing deps.
+preprocessing = [
+    "datasets>=2.14.4",
+    "pyarrow==20.0.0",
+    "av>=15.0.0",
+    "Pillow>=10.0.0",
+    "PyYAML>=6.0.1",
+    "pyturbojpeg>=1.8.2",
+    "imageio[ffmpeg]>=2.37.0",
+]
+
+# Add `--group tutorials` to install tutorial deps (PushT sim, Jupyter kernel, etc.)
+tutorials = [
+    "gym-pusht",
+    "pymunk<7",
+    "ipykernel",
+    "ipywidgets",
+    "matplotlib>=3.10.5",
+    "pandas>=2.0",
+    "jupyter>=1.1.1",
+    "nbconvert>=7.17.0",
+    "nbformat>=5.10.4",
+    "papermill>=2.6",
+    "av>=14.0.0",
+    "jupyterlab>=4.0.0",
+    "notebook>=7.0.0",
+    "jupyterlab-widgets",
+    "widgetsnbextension",
+    "anywidget",
+    "rerun-notebook",
+    "rerun-sdk>=0.29.2",
+]
+
+# Add `--group visualization` to install visualization deps.
+visualization = [
+    "robot-gym",
+    "gradio>=5.43.1",
+    "plotly>=6.3.0",
+    "rerun-sdk>=0.29.2"
+]
+
+# Add `--group dashboard` to install the web-based evaluation results dashboard.
+dashboard = [
+    "gradio>=6.0.0",
+    "plotly>=6.0.0",
+    "sequentialized-barnard-tests>=0.0.5",
+    "kaleido>=0.2.1",
+]
+
+# Add `--group inference` to install runtime deps for GRPC policy serving and robot gym
+# Note: grpc_workspace is bundled inside the robot_gym wheel
+inference = [
+    "robot-gym",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["vla_foundry*"]
+exclude = ["install*", "sagemaker*", "examples*"]
+
+[tool.uv.sources]
+# This specifies custom sources for dependencies
+draccus = { git = "https://github.com/marin-community/draccus" }
+robot-gym = { url = "https://github.com/ToyotaResearchInstitute/lbm_eval/releases/download/1.1.0/robot_gym-1.1.0-py3-none-any.whl" }
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py312"
+exclude = [
+    "packages/",
+]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # pyupgrade — modern type hints, f-strings, etc. (https://docs.astral.sh/ruff/rules/#pyupgrade-up)
+    "UP",
+]
+per-file-ignores = { "__init__.py" = ["F401"] }
+
+[tool.ruff.lint.isort]
+known-third-party = ["wandb"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

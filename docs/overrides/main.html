@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block htmltitle %}
+  <title>{{ config.site_name }}</title>
+{% endblock %}
+
+{% block site_name %}
+  <a href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"
+     title="{{ config.site_name | e }}"
+     class="md-header__button md-logo"
+     aria-label="{{ config.site_name }}"
+     data-md-component="logo">
+    {% include "partials/logo.html" %}
+  </a>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Make the header title clickable
+      var headerTitle = document.querySelector('.md-header__title');
+      if (headerTitle) {
+        headerTitle.style.cursor = 'pointer';
+        headerTitle.addEventListener('click', function() {
+          window.location.href = '{{ config.extra.homepage | d(nav.homepage.url, true) | url }}';
+        });
+      }
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,45 @@
+model:
+  <<: !include ../models/diffusion_policy.yaml
+  vision_language_backbone:
+    type: clip_backbone
+    hf_pretrained: openai/clip-vit-base-patch32
+    freeze_text_encoder: True
+  # NOTE: The following block overrides fields from the included diffusion_policy.yaml.
+  # This creates configuration duplication that is difficult to maintain.
+  # Root cause: Draccus currently does not support deep merging or partial overrides of nested configs.
+  # If ../models/diffusion_policy.yaml or ../models/transformer_100m.yaml change, this file must be manually updated.
+  # Future: Refactor if Draccus adds better merge strategies, or revisit config structure to avoid duplication.
+  transformer:
+    <<: !include ../models/transformer_100m.yaml
+    is_causal: True
+data:
+  <<: !include ../data/lbm/lbm_data_params.yaml
+  <<: !include ../data/diffusion_policy.yaml
+  dataset_manifest: 
+    - s3://your-bucket/your-path/vla_foundry_datasets/BimanualPutRedBellPepperInBin/shards/manifest.jsonl
+  dataset_statistics: 
+    - s3://your-bucket/your-path/vla_foundry_datasets/BimanualPutRedBellPepperInBin/shards/stats.json
+  dataset_modality: 
+    - robotics
+  dataset_weighting: 
+    - 1.0
+  camera_names:
+    - scene_right_0
+    - scene_left_0
+    - wrist_left_plus
+    - wrist_right_minus
+  image_indices:
+    - -1
+    - 0
+  augmentation:
+    image:
+      crop:
+        enabled: true
+        shape: [224, 224]
+        mode: center
+distributed:
+  fsdp: True
+hparams:
+  <<: !include ../hparams/diffusion_policy.yaml
+  per_gpu_batch_size: 16
+  global_batch_size: 128

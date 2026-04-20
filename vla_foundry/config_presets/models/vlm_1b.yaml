@@ -1,0 +1,8 @@
+# VLM with ~1B parameter transformer backbone (same architecture as transformer_1b.yaml)
+# and PaliGemma ViT encoder. The vocab_size is set to 49152 to match the SmolVLM2
+# processor's tokenizer (49152 base + 128 special tokens). For PaliGemma processor, use vocab_size: 257216 instead.
+type: vlm
+transformer:
+  <<: !include transformer_1b.yaml
+  vocab_size: 49280
+vit: !include vit_paligemma.yaml

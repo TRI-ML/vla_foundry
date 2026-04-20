@@ -1,0 +1,4 @@
+resume_from_checkpoint: null
+resume_weights_only: false
+type: vlm_hf
+hf_pretrained: "microsoft/git-base"

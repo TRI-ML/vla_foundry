@@ -1,0 +1,161 @@
+/* VLA Foundry - TRI brand colors (red, gray, black) */
+
+:root {
+  /* Light mode - TRI palette */
+  --md-primary-fg-color: #8B0F1F;
+  --md-primary-fg-color--light: #a11325;
+  --md-primary-fg-color--dark: #6e0c18;
+  --md-accent-fg-color: #CF152D;
+  --md-accent-fg-color--transparent: rgba(207, 21, 45, 0.1);
+  --md-typeset-a-color: #CF152D;
+}
+
+[data-md-color-scheme="slate"] {
+  /* Dark mode - TRI palette */
+  --md-default-bg-color: #141414;
+  --md-default-bg-color--light: #1e1e1e;
+  --md-default-bg-color--lighter: #2a2a2a;
+  --md-primary-fg-color: #8B0F1F;
+  --md-primary-fg-color--light: #a11325;
+  --md-primary-fg-color--dark: #6e0c18;
+  --md-accent-fg-color: #E02040;
+  --md-typeset-a-color: #E02040;
+}
+
+/* Header */
+.md-header {
+  background-color: var(--md-primary-fg-color);
+}
+
+/* Tabs - charcoal instead of red to avoid red-on-red */
+.md-tabs {
+  background-color: #2d2d2d;
+}
+
+/* Hero section on landing page */
+.hero {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.hero img {
+  max-width: 600px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: var(--md-typeset-color);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+/* Feature grid */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 2rem 0;
+}
+
+.feature-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 4px 16px rgba(207, 21, 45, 0.1);
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  font-size: 1rem;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+  color: var(--md-typeset-color--light);
+}
+
+/* Quick links row */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.quick-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background: var(--md-accent-fg-color);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.quick-links a:hover {
+  opacity: 0.9;
+}
+
+.quick-links a.secondary {
+  background: transparent;
+  border: 1px solid #63656A;
+  color: var(--md-typeset-color) !important;
+}
+
+.quick-links a.secondary:hover {
+  border-color: var(--md-accent-fg-color);
+}
+
+/* Admonition customization */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 6px;
+}
+
+/* Code block styling */
+.md-typeset code {
+  border-radius: 4px;
+}
+
+/* Navigation sidebar active state */
+.md-nav__item--active > .md-nav__link {
+  color: var(--md-accent-fg-color);
+}
+
+/* Footer - charcoal to match tabs */
+.md-footer {
+  background-color: #2d2d2d;
+}
+
+/* Table styling */
+.md-typeset table:not([class]) {
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: #63656A;
+  color: #fff;
+}
+
+/* Make header title clickable */
+.md-header__title {
+  cursor: pointer;
+}
+
+.md-header__title:hover {
+  opacity: 0.8;
+}

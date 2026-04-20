@@ -1,0 +1,67 @@
+# Not included here are details on (1) what to train on, (2) how much to train on
+# You need to specify remote_sync, num_checkpoints, total_train_samples, data.dataset_manifest, data.dataset_statistics, data.dataset_modality, data.dataset_weighting.
+
+model:
+  <<: !include ../models/diffusion_policy.yaml
+  input_noise_std: 0.05
+  vision_language_backbone:
+    hf_pretrained: openai/clip-vit-base-patch32
+    freeze_text_encoder: false
+    freeze_image_encoder: false
+  transformer:
+    <<: !include ../models/transformer_410m.yaml
+    is_causal: True
+  noise_scheduler:
+    clamp_range:
+      - -1.5
+      - 1.5
+
+data:
+  <<: !include ../data/lbm/lbm_data_params.yaml
+  <<: !include ../data/diffusion_policy.yaml
+  augmentation:
+    image:
+      color_jitter:
+        enabled: true
+      crop:
+        enabled: true
+  camera_names:
+    - scene_right_0
+    - scene_left_0
+    - wrist_left_minus
+    - wrist_left_plus
+    - wrist_right_minus
+    - wrist_right_plus
+  action_fields:
+    - robot__action__poses__left::panda__xyz_relative
+    - robot__action__poses__right::panda__xyz_relative
+    - robot__action__poses__left::panda__rot_6d_relative
+    - robot__action__poses__right::panda__rot_6d_relative
+    - robot__action__grippers__left::panda_hand
+    - robot__action__grippers__right::panda_hand
+  proprioception_fields:
+    - robot__actual__poses__left::panda__xyz
+    - robot__actual__poses__right::panda__xyz
+    - robot__actual__poses__left::panda__rot_6d
+    - robot__actual__poses__right::panda__rot_6d
+  image_indices:
+    - -1
+    - 0
+  lowdim_past_timesteps: 2
+  lowdim_future_timesteps: 8
+  prefetch_factor: 16
+
+distributed:
+  fsdp: false
+
+hparams:
+  <<: !include ../hparams/diffusion_policy.yaml
+  precision: "float32"
+  lr: 0.00005
+  lr_cooldown_end: 0.000001
+  wd: 0.00000001
+  per_gpu_batch_size: 128
+  global_batch_size: 1024
+
+ema: 
+  enabled: true

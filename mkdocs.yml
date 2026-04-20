@@ -1,0 +1,132 @@
+site_name: ← Back to VLA Foundry homepage
+site_url: https://tri-ml.github.io/vla_foundry
+site_description: Train LLMs, VLMs, and VLAs — all in one place
+repo_url: https://github.com/TRI-ML/vla_foundry
+repo_name: TRI-ML/vla_foundry
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  logo: assets/logo_dark.svg
+  favicon: assets/logo.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - search.suggest
+    - search.highlight
+    - toc.follow
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  homepage: ../
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/TRI-ML/vla_foundry
+
+nav:
+  - Documentation Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quickstart: getting-started/quickstart.md
+  - Concepts:
+    - Architecture: concepts/architecture.md
+    - Configuration: concepts/configuration.md
+    - Data Format: concepts/data-format.md
+    - Training Loop: concepts/training-loop.md
+    - Distributed Training: concepts/distributed-training.md
+  - Guides:
+    - Adding New Models: guides/adding-new-models.md
+    - LBM Pipeline: guides/lbm-pipeline.md
+    - Data Preprocessing: guides/data-preprocessing.md
+    - Robotics Data: guides/robotics-data.md
+    - Deployment: guides/deployment.md
+  - Reference:
+    - Params:
+      - Overview: reference/params/overview.md
+      - TrainExperimentParams: reference/params/train-experiment.md
+      - ModelParams: reference/params/model-params.md
+      - DataParams: reference/params/data-params.md
+      - HyperParams: reference/params/hyper-params.md
+    - Models:
+      - Overview: reference/models/overview.md
+      - Transformer: reference/models/transformer.md
+      - VLM: reference/models/vlm.md
+      - Diffusion Policy: reference/models/diffusion-policy.md
+    - Config Presets: reference/config-presets.md
+  - Tutorials: tutorials.md
+  - Examples:
+    - Overview: examples/index.md
+    - Training: examples/training.md
+    - Preprocessing: examples/preprocessing.md
+  - Contributing: contributing.md
+  - FAQ: faq.md

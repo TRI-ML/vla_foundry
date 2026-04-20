@@ -1,0 +1,5 @@
+type: vlm
+transformer:
+  type: transformer_hf
+  hf_pretrained: google/gemma-2-2b
+vit: !include vit_paligemma.yaml

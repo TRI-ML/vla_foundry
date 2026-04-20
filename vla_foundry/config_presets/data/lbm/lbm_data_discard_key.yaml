@@ -1,0 +1,8 @@
+- robot__desired__wrench__right::panda
+- robot__desired__joint_torque__right::panda
+- robot__desired__joint_torque__left::panda
+- robot__desired__wrench__left::panda
+- robot__desired__external_wrench__right::panda
+- robot__desired__external_wrench__left::panda
+- robot__desired__joint_torque_external__right::panda
+- robot__desired__joint_torque_external__left::panda

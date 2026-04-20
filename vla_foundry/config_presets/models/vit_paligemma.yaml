@@ -1,0 +1,8 @@
+type: vit
+img_size: 224
+hidden_dim: 1152
+inter_dim: 4304
+n_heads: 16
+n_layers: 27
+patch_size: 14
+projector_pixel_shuffle_factor: 1

@@ -1,0 +1,54 @@
+type: robotics
+
+language_instruction_types:
+  - original
+  - randomized
+  - verbose
+  - alternative
+
+proprioception_fields:
+  - robot__actual__poses__left::panda__xyz # 3
+  - robot__actual__poses__left::panda__rot_6d # 6
+  - robot__actual__grippers__left::panda_hand # 1
+  - robot__actual__poses__right::panda__xyz # 3
+  - robot__actual__poses__right::panda__rot_6d # 6
+  - robot__actual__grippers__right::panda_hand # 1
+
+action_fields:
+  - robot__action__poses__left::panda__xyz_relative # 3
+  - robot__action__poses__left::panda__rot_6d_relative # 6
+  - robot__action__grippers__left::panda_hand # 1
+  - robot__action__poses__right::panda__xyz_relative # 3
+  - robot__action__poses__right::panda__rot_6d_relative # 6
+  - robot__action__grippers__right::panda_hand # 1
+
+pose_groups:
+  - name: "left_panda_action"
+    position_key: "robot__action__poses__left::panda__xyz"
+    rotation_key: "robot__action__poses__left::panda__rot_6d"
+  - name: "right_panda_action"
+    position_key: "robot__action__poses__right::panda__xyz"
+    rotation_key: "robot__action__poses__right::panda__rot_6d"
+
+intrinsics_fields:
+  - intrinsics.scene_right_0
+  - intrinsics.scene_left_0
+  - intrinsics.wrist_left_minus
+  - intrinsics.wrist_left_plus
+  - intrinsics.wrist_right_minus
+  - intrinsics.wrist_right_plus
+
+extrinsics_fields:
+  - extrinsics.scene_right_0
+  - extrinsics.scene_left_0
+  - extrinsics.wrist_left_minus
+  - extrinsics.wrist_left_plus
+  - extrinsics.wrist_right_minus
+  - extrinsics.wrist_right_plus
+
+normalization:
+  enabled: true
+  method: percentile_1_99
+  scope: per_timestep
+  epsilon: 1e-2
+  centered_norm: true

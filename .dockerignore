@@ -1,0 +1,80 @@
+# Exclude everything not needed for the SageMaker build context.
+# The Dockerfile only COPYs: pyproject.toml, vla_foundry/, sagemaker/configs/,
+# sagemaker/git_diffs/. Anything else is wasted context-transfer time and can
+# leak large local artifacts into the Docker daemon.
+
+# Virtualenvs and build artifacts
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+wheels/
+
+# VCS and worktree metadata
+.git
+.github/
+.gitignore
+.gitattributes
+.rayignore
+
+# Editor / IDE / assistant state
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# Python caches and bytecode
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Docs, examples, tutorials — not needed at training time
+docs/
+tests/
+examples/
+experiments/
+tutorials/
+assets/
+HOMEPAGE_README.md
+README.md
+FAQ.md
+CONTRIBUTING.md
+RELEASE_INTEGRATION_LOG.md
+LICENSE
+mkdocs.yml
+_config.yml
+index.html
+serve_local.sh
+
+# Local run outputs / data
+outputs/
+logs/
+wandb/
+data/
+*.log
+
+# Per-launch staging files that change the build context unnecessarily.
+# The Dockerfile picks up the specific hyperparameters_<uuid>.yaml and
+# git_diff_<uuid>.txt via the sagemaker/configs and sagemaker/git_diffs
+# COPYs, but keep the directories themselves out of any accidental context
+# walks elsewhere.
+
+# Secrets — never ship into a build context even if never COPY'd.
+secrets.env
+.env
+.env.*
+
+# OS noise
+.DS_Store
+Thumbs.db
