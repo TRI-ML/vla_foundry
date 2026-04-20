@@ -1,0 +1,7 @@
+{"max_sample_size_per_model": 50, "evaluations": [
+  {"skill_type": "task_a", "scenario_index": 0, "is_pending": false, "is_success": true, "total_time": 3.0, "failure_message": null},
+  {"skill_type": "task_a", "scenario_index": 1, "is_pending": false, "is_success": false, "total_time": 15.0, "failure_message": null},
+  {"skill_type": "task_a", "scenario_index": 2, "is_pending": true, "is_success": null, "total_time": 0, "failure_message": null},
+  {"skill_type": "task_a", "scenario_index": 3, "is_pending": false, "is_success": null, "total_time": 0, "failure_message": "SIGSEGV in Drake"},
+  {"skill_type": "task_a", "scenario_index": 4, "is_pending": false, "is_success": true, "total_time": 2.5, "failure_message": null}
+]}

@@ -1,0 +1,118 @@
+cluster_name: s3-webdataset-cluster
+min_workers: 10
+max_workers: 120
+idle_timeout_minutes: 10  # Prevent autoscaler from terminating "idle" nodes
+
+available_node_types:
+    ray.head.default:
+        resources: {"CPU": 0, "memory": 0}  # Zero resources = no jobs scheduled on head
+        node_config:
+            SubnetIds: [subnet-PLACEHOLDER]
+            SecurityGroupIds: [sg-PLACEHOLDER]
+            ImageId: ami-PLACEHOLDER
+            InstanceType: m5.xlarge  # Small instance for head - just runs GCS/dashboard/autoscaler
+            BlockDeviceMappings:
+              - DeviceName: /dev/sda1
+                Ebs:
+                    VolumeSize: 20  # 20GB root volume for head (needs ~5GB)
+                    VolumeType: gp3
+            IamInstanceProfile:
+                Arn: arn:aws:iam::ACCOUNT_ID:instance-profile/ray-autoscaler-v1
+            TagSpecifications:
+              - ResourceType: instance
+                Tags:
+                  - Key: owner.email
+                    Value: user@example.com
+                  - Key: project
+                    Value: your-project
+    ray.worker.default:
+        min_workers: 10
+        max_workers: 120
+        node_config:
+            SubnetIds: [subnet-PLACEHOLDER]
+            SecurityGroupIds: [sg-PLACEHOLDER]
+            ImageId: ami-PLACEHOLDER
+            InstanceType: i4i.4xlarge
+            IamInstanceProfile:
+                Arn: arn:aws:iam::ACCOUNT_ID:instance-profile/ray-autoscaler-v1
+            TagSpecifications:
+              - ResourceType: instance
+                Tags:
+                  - Key: owner.email
+                    Value: user@example.com
+                  - Key: project
+                    Value: your-project
+
+# Cloud-provider specific configuration.
+provider:
+    type: aws
+    region: us-east-1
+    cache_stopped_nodes: False
+    use_internal_ips: True
+
+file_mounts: {
+    # Mount only what the project needs (avoid scanning/rsyncing huge local folders like experiments/).
+    "/home/ubuntu/vla_foundry/pyproject.toml": "./pyproject.toml",
+    "/home/ubuntu/vla_foundry/uv.lock": "./uv.lock",
+    "/home/ubuntu/vla_foundry/vla_foundry": "./vla_foundry",
+    "/home/ubuntu/vla_foundry/packages": "./packages",
+    "/home/ubuntu/.cache/huggingface/token": "~/.cache/huggingface/token",
+}
+
+rsync_exclude:
+    - "**/.venv/"
+    - "**/.venv"
+    - "**/wandb"
+    - "**/wandb/"
+    - "**/.git/"
+    - "**/__pycache__/"
+    - "**/*.pyc"
+    - "downloaded_results/"
+    - "results/"
+    - "experiments/"
+    - "out.log"
+    - ".git"
+
+setup_commands:
+    # Wait for cloud-init / apt-daily / unattended-upgrades to release apt/dpkg locks.
+    - "sudo bash -lc 'set -euo pipefail; max_tries=180; try=0; locks=(/var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock); while true; do busy=0; for l in \"${locks[@]}\"; do if sudo fuser \"$l\" >/dev/null 2>&1; then echo \"apt lock held $l (waiting)\"; busy=1; fi; done; if [ \"$busy\" -eq 0 ]; then break; fi; try=$((try+1)); if [ \"$try\" -ge \"$max_tries\" ]; then echo \"Timed out waiting for apt locks\"; exit 1; fi; sleep 5; done'"
+    - sudo apt-get update -y
+    - sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" ffmpeg python3-pip
+    - sudo ln -sf /usr/bin/pip3 /usr/bin/pip || true
+    - sudo NEEDRESTART_MODE=a apt install awscli -y
+    # Mount NVMe at /mnt/data (NOT /tmp — systemd may mount /tmp as noexec tmpfs,
+    # which prevents executing binaries like ray's raylet).
+    - sudo mkdir -p /mnt/data
+    - "if [ -b /dev/nvme1n1 ] && ! mountpoint -q /mnt/data; then sudo mkfs -t xfs -f /dev/nvme1n1 && sudo mount /dev/nvme1n1 /mnt/data; fi"
+    - sudo chown -R $USER /mnt/data
+    - sudo chmod 1777 /mnt/data
+    - mkdir -p ~/.cache/huggingface/
+    - curl -LsSf https://astral.sh/uv/install.sh | sh
+    - echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+    # Symlink heavy directories to NVMe because the root filesystem is too small (20GB).
+    # Always recreate symlinks (ln -sfn) to ensure they point to /mnt/data, not stale /tmp.
+    # Save HF token before touching .cache (covers both real-dir and stale-symlink cases)
+    - "cp /home/ubuntu/.cache/huggingface/token /tmp/_hf_token_backup 2>/dev/null || true"
+    - "mkdir -p /mnt/data/.cache && ([ -d /home/ubuntu/.cache ] && ! [ -L /home/ubuntu/.cache ] && mv /home/ubuntu/.cache /home/ubuntu/.cache.bak || true) && ln -sfn /mnt/data/.cache /home/ubuntu/.cache"
+    # Restore huggingface token into the new symlinked .cache
+    - "mkdir -p /home/ubuntu/.cache/huggingface && cp /tmp/_hf_token_backup /home/ubuntu/.cache/huggingface/token 2>/dev/null || true"
+    - "mkdir -p /mnt/data/.venv && ([ -d vla_foundry/.venv ] && ! [ -L vla_foundry/.venv ] && mv vla_foundry/.venv vla_foundry/.venv.bak || true) && ln -sfn /mnt/data/.venv vla_foundry/.venv"
+    - cd vla_foundry && UV_PROJECT_ENVIRONMENT=/home/ubuntu/vla_foundry/.venv uv sync --group=preprocessing
+    # uv doesn't preserve execute bits on non-script binaries (e.g. ray's raylet)
+    - "chmod +x /home/ubuntu/vla_foundry/.venv/lib/python*/site-packages/ray/core/src/ray/raylet/raylet || true"
+    - echo 'export HF_TOKEN=$(cat /home/ubuntu/.cache/huggingface/token)' >> ~/.bashrc
+    - echo 'source /home/ubuntu/vla_foundry/.venv/bin/activate' >> ~/.bashrc
+    # Also add venv to ~/.profile so non-interactive shells (used by ray start) pick it up
+    - echo 'export PATH="/home/ubuntu/vla_foundry/.venv/bin:$PATH"' >> ~/.profile
+    # Point Ray temp dir to NVMe to avoid filling up root filesystem
+    - mkdir -p /mnt/data/ray_tmp
+    # Raise file descriptor limit for GCS server and workers (default 1024 is too low for large clusters)
+    # Use a drop-in file for idempotency (avoids duplicates on re-runs)
+    - "sudo bash -c 'printf \"* soft nofile 65536\\n* hard nofile 65536\\n\" > /etc/security/limits.d/99-ray-nofile.conf'"
+    - "sudo sysctl -w fs.file-max=2097152 || true"
+
+head_start_ray_commands:
+    - source /home/ubuntu/.profile && ulimit -n 65536; ray stop; ray start --head --port=6379 --object-manager-port=8076 --autoscaling-config=~/ray_bootstrap_config.yaml --dashboard-host=0.0.0.0 --temp-dir=/mnt/data/ray_tmp
+
+worker_start_ray_commands:
+    - source /home/ubuntu/.profile && ulimit -n 65536; ray stop; ray start --address=$RAY_HEAD_IP:6379 --object-manager-port=8076 --temp-dir=/mnt/data/ray_tmp

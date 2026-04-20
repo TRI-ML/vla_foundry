@@ -1,0 +1,3 @@
+{"max_sample_size_per_model": 200, "evaluations": [
+  {"skill_type": "task_b", "scenario_index": 0, "is_pending": false, "is_success": false, "total_time": 15.0, "failure_message": null}
+]}

@@ -1,0 +1,43 @@
+# Data directories (exclude large datasets but keep tutorial data accessible via absolute paths)
+tutorials/data/
+tutorials/checkpoints/
+data/droid_100_minimal/
+data/dclm_minimal/
+smoke_test_nb/
+
+# Eval rollouts (large recording.html files, results.json)
+rollouts/
+rollouts_manual/
+rollouts_comparison/
+
+# Paper assets (eval_results JSON files are tracked but not needed by Ray jobs)
+paper_tools/
+
+# Large test assets
+tests/essential/test_assets/
+
+# Environment
+.venv/
+
+# Git
+.git/
+
+# Experiments / outputs
+wandb/
+experiments/
+outputs/
+results/
+tmp/
+debug_logs/
+downloaded_results/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Cache
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/

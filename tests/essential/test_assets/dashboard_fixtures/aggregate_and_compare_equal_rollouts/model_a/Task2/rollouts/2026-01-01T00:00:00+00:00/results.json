@@ -1,0 +1,8 @@
+{
+  "max_sample_size_per_model": 10,
+  "evaluations": [
+    {"skill_type": "task2", "scenario_index": 0, "is_pending": false, "is_success": false, "total_time": 1.0, "failure_message": null},
+    {"skill_type": "task2", "scenario_index": 1, "is_pending": false, "is_success": true, "total_time": 1.0, "failure_message": null},
+    {"skill_type": "task2", "scenario_index": 2, "is_pending": false, "is_success": false, "total_time": 1.0, "failure_message": null}
+  ]
+}

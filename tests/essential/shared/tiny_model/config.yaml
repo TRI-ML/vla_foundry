@@ -1,0 +1,74 @@
+data:
+  allow_multiple_epochs: false
+  dataset_manifest:
+  - s3://your-bucket/your-path/your_llm_pretraining_dataset/manifest.jsonl
+  dataset_modality:
+  - text
+  dataset_weighting:
+  - 1.0
+  num_workers: 1
+  seed: 42
+  seq_len: 2048
+  type: text
+  shuffle: true
+  shuffle_buffer_size: 2000
+  shuffle_initial: 500
+distributed:
+  ddp_static_graph: false
+  device: cuda:0
+  dist_backend: nccl
+  dist_url: env://
+  fsdp: false
+  fsdp_cpu_offload: false
+  fsdp_reshard_after_forward: false
+  local_rank: 0
+  rank: 0
+  use_distributed: true
+  world_size: 8
+hparams:
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-08
+  force_min_lr: 0.0
+  global_batch_size: 2048
+  grad_checkpointing: false
+  grad_clip_norm: null
+  loss_function: cross_entropy
+  lr: 0.0001
+  lr_cooldown_end: 0.0
+  lr_scheduler: cosine
+  optimizer: adamw
+  per_gpu_batch_size: 32
+  precision: amp_bfloat16
+  seed: 42
+  torchcompile: false
+  warmup: '0.1'
+  wd: 0.2
+  world_size: 8
+  z_loss_coefficient: 0.0
+log_every_n_steps: 20
+model:
+  attn_name: torch_attn
+  ffn_type: swiglu
+  hidden_dim: 64
+  max_seq_len: 128
+  n_heads: 2
+  n_layers: 2
+  norm_eps: 1.0e-05
+  norm_type: default_layer_norm
+  positional_embedding_type: rotary
+  post_embed_norm: false
+  qk_norm: false
+  resume_from_checkpoint: null
+  resume_weights_only: false
+  type: transformer
+  vocab_size: 50432
+  weight_tying: false
+name: 2025_07_15-00_31_10-model_transformer-lr_0.0001-bsz_2048
+num_checkpoints: 5
+num_epochs: null
+remote_sync: s3://your-bucket/your-path/vla_foundry_scratch/models/llm_tiny
+save_path: null
+total_train_samples: 1000000
+wandb: true
+wandb_project_name: vla_foundry

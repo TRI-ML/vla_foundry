@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLA Foundry - Vision-Language-Action Model Training Framework</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background: #8B0F1F;
+            height: 4px;
+            width: 100%;
+        }
+
+        .tri-logo-container {
+            position: absolute;
+            top: 1.5rem;
+            left: 2rem;
+            z-index: 10;
+        }
+
+        .tri-logo {
+            height: 108px;
+            transition: opacity 0.3s ease;
+        }
+
+        .tri-logo:hover {
+            opacity: 0.8;
+        }
+
+        .header-section {
+            position: relative;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #8B0F1F 0%, #2d2d2d 100%);
+            padding: 3rem 2rem 4rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            max-width: 550px;
+            width: 88%;
+            margin: 0 auto 2rem;
+            display: block;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 2rem;
+            font-weight: 500;
+            opacity: 0.98;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .authors {
+            font-size: 1.05rem;
+            color: #555;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .authors sup {
+            font-size: 0.8em;
+        }
+
+        .affiliation {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: #CF152D;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #E02040;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(207, 21, 45, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            background: transparent;
+            border-radius: 24px;
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+
+        .content-section:first-child {
+            margin-bottom: 1rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin: -3rem calc(-50vw + 50%) 1.5rem calc(-50vw + 50%);
+            padding: 2rem;
+            color: #8B0F1F;
+            text-align: center;
+            background: white;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p strong {
+            color: #8B0F1F;
+            font-weight: 600;
+        }
+
+        .intro-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #8B0F1F;
+            text-align: center;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .wide-content-section {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: transparent;
+            border-radius: 24px;
+            padding: 3rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .wide-content-section h2 {
+            font-size: 2rem;
+            margin: -3rem calc(-50vw + 50%) 1.5rem calc(-50vw + 50%);
+            padding: 2rem;
+            color: #8B0F1F;
+            text-align: center;
+            background: white;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(207, 21, 45, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(207, 21, 45, 0.35);
+        }
+
+        .feature-card h3 {
+            color: #8B0F1F;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-placeholder {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            margin: 2rem 0;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ddd;
+        }
+
+        .full-width-video-section {
+            margin: 1rem 0 2rem 0;
+        }
+
+        .demo-video {
+            width: 100%;
+            display: block;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            margin: 2rem auto;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: transform 0.5s ease;
+            padding: 2rem 0;
+        }
+
+        .carousel-video-wrapper {
+            flex-shrink: 0;
+            transition: all 0.5s ease;
+            opacity: 0.4;
+            transform: scale(0.7);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .carousel-video-wrapper.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .carousel-video {
+            width: 600px;
+            display: block;
+            border-radius: 16px;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 3.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-video-wrapper:hover .video-controls {
+            opacity: 1;
+        }
+
+        .video-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            transition: transform 0.2s ease;
+            filter: none;
+            min-width: 32px;
+            text-align: center;
+        }
+
+        .video-controls button:hover {
+            transform: scale(1.2);
+        }
+
+        .video-scrubber {
+            width: 150px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .video-scrubber-progress {
+            height: 100%;
+            background: #CF152D;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .carousel-video-wrapper {
+            position: relative;
+        }
+
+        .video-caption {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #8B0F1F;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .carousel-video-wrapper.active .video-caption {
+            opacity: 1;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-btn {
+            background: #CF152D;
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: #E02040;
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(207, 21, 45, 0.4);
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-dot.active {
+            background: #CF152D;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .rollout-toggle-btn {
+            background: white;
+            color: #2d2d2d;
+            border: 2px solid #CF152D;
+            padding: 0.5rem 1.5rem;
+            margin: 0 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rollout-toggle-btn:hover {
+            background: #FFF0F2;
+        }
+
+        .rollout-toggle-btn.active {
+            background: #CF152D;
+            color: white;
+        }
+
+        .pipeline-image {
+            height: auto;
+            max-width: 100%;
+        }
+
+        .pipeline-image-narrow {
+            width: 648px;
+            max-width: 90%;
+        }
+
+        .pipeline-image-wide {
+            width: 110%;
+            max-width: 1980px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zoom-in {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .zoom-in.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+            background: #2d2d2d;
+            color: white;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-bar"></div>
+
+    <div class="header-section">
+        <div class="tri-logo-container">
+            <a href="https://www.tri.global/" target="_blank" rel="noopener noreferrer">
+                <img src="assets/tri-logo-dark.png" alt="Toyota Research Institute" class="tri-logo">
+            </a>
+        </div>
+        <header>
+            <img src="assets/logo_dark.svg" alt="VLA Foundry Logo" class="logo">
+
+            <div class="buttons">
+                <a href="https://github.com/TRI-ML/vla_foundry" class="btn btn-secondary" target="_blank"
+                    rel="noopener noreferrer">
+                    💻 Code
+                </a>
+                <a href="vla_foundry_technical_report.pdf" class="btn btn-secondary">
+                    📄 Technical Report (arXiv coming soon)
+                </a>
+                <a href="https://huggingface.co/collections/TRI-ML/vla-foundry" class="btn btn-secondary"
+                    target="_blank" rel="noopener noreferrer">
+                    🤗 Multi-task Model Weights
+                </a>
+                <a href="docs/" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
+                    📚 Documentation
+                </a>
+            </div>
+        </header>
+    </div>
+
+    <div class="container">
+
+        <div class="content-section fade-in">
+            <h2>VLA Foundry: A Unified Framework for Training Vision-Language-Action Models</h2>
+
+            <div class="authors">
+                Jean Mercat<sup>*†</sup>, Sedrick Keh<sup>*†</sup>, Kushal Arora<sup>†</sup>, Isabella
+                Huang<sup>†</sup>, Paarth Shah<sup>†</sup>, Haruki Nishimura, Shun Iwase, Katherine Liu<sup>†</sup>
+            </div>
+            <div class="affiliation">
+                <sup>*</sup>Co-first authors<br>
+                <sup>†</sup>Core contributors
+            </div>
+
+            <p>
+                We present VLA Foundry, an open-source framework that unifies LLM, VLM, and VLA training in a single
+                codebase. Most open-source VLA efforts specialize on the action training stage, often stitching together
+                incompatible pretraining pipelines. VLA Foundry instead provides a shared training stack with end-to-end
+                control, from language pretraining to action-expert fine-tuning. VLA Foundry supports both from-scratch
+                training and pretrained backbones from Hugging Face. To demonstrate the utility of our framework, we
+                train and release two families of models: the first trained fully from scratch through our LLM→VLM→VLA
+                pipeline and the second built on the pretrained <a href="https://arxiv.org/abs/2511.21631"
+                    target="_blank" rel="noopener noreferrer"
+                    style="color: #CF152D; text-decoration: none; font-weight: 600;">Qwen3-VL</a> backbone. We evaluate
+                closed-loop policy performance of both models on <a
+                    href="https://github.com/ToyotaResearchInstitute/lbm_eval" target="_blank" rel="noopener noreferrer"
+                    style="color: #CF152D; text-decoration: none; font-weight: 600;">LBM Eval</a>, an open-data,
+                open-source simulator. We also contribute usability improvements to the simulator and the <a
+                    href="https://arxiv.org/abs/2503.10966" target="_blank" rel="noopener noreferrer"
+                    style="color: #CF152D; text-decoration: none; font-weight: 600;">STEP</a> analysis tools for easier
+                public use. In the nominal evaluation setting, our fully-open from-scratch model is on par with our <a
+                    href="https://arxiv.org/abs/2507.05331" target="_blank" rel="noopener noreferrer"
+                    style="color: #CF152D; text-decoration: none; font-weight: 600;">prior closed-source work</a> and
+                substituting in the Qwen3-VL backbone leads to a strong multi-task table top manipulation policy
+                outperforming our baseline by a wide margin.
+            </p>
+        </div>
+
+    </div>
+
+    <div class="full-width-video-section fade-in">
+        <video class="demo-video" autoplay loop muted playsinline>
+            <source src="assets/B_hop_close_current_floor_fixed.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="wide-content-section fade-in">
+        <h2>Use VLA Foundry to train an LLM, then a VLM, and finally a VLA—all in one place</h2>
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; margin-top: 2rem;">
+            <img src="assets/llm_vlm_vla.png" alt="Pipeline diagram part 1"
+                class="pipeline-image pipeline-image-narrow zoom-in">
+        </div>
+    </div>
+
+    <div class="wide-content-section fade-in">
+        <h2>Bootstrap off pre-trained models from Hugging Face</h2>
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; margin-top: 2rem;">
+            <img src="assets/hf_model_support.png" alt="Pipeline diagram part 2"
+                class="pipeline-image pipeline-image-narrow zoom-in">
+        </div>
+    </div>
+
+    <div class="wide-content-section fade-in">
+        <h2>Discover what's included</h2>
+        <div class="features">
+            <div class="feature-card stagger-item">
+                <h3>🎯 Multiple Modalities</h3>
+                <p>Train with text, image-captions, or robotics data. Go from LLM to VLM to VLA using the same
+                    framework.</p>
+            </div>
+            <div class="feature-card stagger-item">
+                <h3>⚡ Multi-Node Training</h3>
+                <p>Built on FSDP2 with WebDataset streaming. Multi-GPU training works locally with torchrun and on large
+                    clusters with AWS SageMaker.</p>
+            </div>
+            <div class="feature-card stagger-item">
+                <h3>🔀 Dataset Mixing</h3>
+                <p>Specify dataset sources and ratios at dataloader time for easy dataset mixing and batch balancing
+                    across modalities.</p>
+            </div>
+            <div class="feature-card stagger-item">
+                <h3>🔧 Modular Design</h3>
+                <p>Pure PyTorch implementation with no heavy external libraries. Easy to modify, extend, and add new
+                    models or data pipelines.</p>
+            </div>
+            <div class="feature-card stagger-item">
+                <h3>🤗 Hugging Face Support</h3>
+                <p>Load pretrained weights from Hugging Face for LLMs, VLMs, CLIP models, and more. Use native or
+                    HF-backed implementations.</p>
+            </div>
+            <div class="feature-card stagger-item">
+                <h3>📋 Registry System</h3>
+                <p>Self-registering models and batch handlers via decorators. Add new architectures without touching
+                    core code.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="wide-content-section fade-in">
+        <h2>Download and use our open LLM, VLM, and VLA models</h2>
+        <div style="display: flex; flex-direction: column; gap: 2rem; align-items: center; margin-top: 2rem;">
+            <img src="assets/pre_trained_models.png" alt="Pre-trained models"
+                class="pipeline-image pipeline-image-wide zoom-in">
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section fade-in" style="padding-bottom: 1rem;">
+            <h2>See VLA results in action</h2>
+            <p style="text-align: center; margin-bottom: 0;">
+                Example success and failure rollouts from our <strong>Foundry-QwenVLA-2.5B</strong> model evaluated in
+                <a href="https://github.com/ToyotaResearchInstitute/lbm_eval" target="_blank" rel="noopener noreferrer"
+                    style="color: #CF152D; text-decoration: none; font-weight: 600;">LBM Eval</a>,
+                a challenging open-source simulation benchmark.
+            </p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: -1rem 0 2rem 0;">
+        <button class="rollout-toggle-btn active" data-type="success">Success</button>
+        <button class="rollout-toggle-btn" data-type="failure">Failure</button>
+    </div>
+
+    <div class="carousel-container fade-in" id="carousel-main">
+        <div class="carousel-track" id="carousel-track">
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos00_BimanualPlaceAppleFromBowlIntoBin_demonstration_36.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Place Apple From Bowl Into Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos01_BimanualPlaceFruitFromBowlIntoBin_demonstration_101.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Place Fruit From Bowl Into Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos02_BimanualPutRedBellPepperInBin_demonstration_113.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Red Bell Pepper In Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source
+                        src="assets/carousel_success/pos03_BimanualPutSpatulaOnPlateFromDryingRack_demonstration_16.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Spatula On Plate From Drying Rack</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos04_BimanualPutSpatulaOnPlateFromTable_demonstration_196.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Spatula On Plate From Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source
+                        src="assets/carousel_success/pos05_BimanualStackPlatesOnTableFromDryingRack_demonstration_3.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Stack Plates On Table From Drying Rack</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos06_BimanualStoreCerealBoxUnderShelf_demonstration_143.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Store Cereal Box Under Shelf</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos07_PlaceCupByCoaster_demonstration_41.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Place Cup By Coaster</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos08_PushCoasterToCenterOfTable_demonstration_94.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Push Coaster To Center Of Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos09_PushCoasterToMug_demonstration_23.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Push Coaster To Mug</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos10_PutBananaOnSaucer_demonstration_122.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Banana On Saucer</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos11_PutKiwiInCenterOfTable_demonstration_51.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Kiwi In Center Of Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos12_PutMugOnSaucer_demonstration_91.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Put Mug On Saucer</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos13_PutSpatulaInUtensilCrock_demonstration_162.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Spatula In Utensil Crock</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos14_TurnCupUpsideDown_demonstration_141.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Turn Cup Upside Down</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_success/pos15_TurnMugRightsideUp_demonstration_47.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Turn Mug Rightside Up</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="controls-main">
+        <div class="carousel-controls">
+            <button class="carousel-btn" onclick="prevVideo()">‹</button>
+            <button class="carousel-btn" onclick="nextVideo()">›</button>
+        </div>
+
+        <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+
+    <!-- Hidden carousel for failure videos - not displayed -->
+    <div style="display: none;">
+        <div id="carousel-track-failure-hidden">
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos00_BimanualPlaceAppleFromBowlIntoBin_demonstration_14.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Place Apple From Bowl Into Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos01_BimanualPlaceFruitFromBowlIntoBin_demonstration_61.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Place Fruit From Bowl Into Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos02_BimanualPutRedBellPepperInBin_demonstration_117.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Red Bell Pepper In Bin</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source
+                        src="assets/carousel_failure/pos03_BimanualPutSpatulaOnPlateFromDryingRack_demonstration_109.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Spatula On Plate From Drying Rack</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos04_BimanualPutSpatulaOnPlateFromTable_demonstration_114.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Put Spatula On Plate From Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source
+                        src="assets/carousel_failure/pos05_BimanualStackPlatesOnTableFromDryingRack_demonstration_44.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Stack Plates On Table From Drying Rack</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos06_BimanualStoreCerealBoxUnderShelf_demonstration_44.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Bimanual Store Cereal Box Under Shelf</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos07_PlaceCupByCoaster_demonstration_1.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Place Cup By Coaster</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos08_PushCoasterToCenterOfTable_demonstration_46.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Push Coaster To Center Of Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos09_PushCoasterToMug_demonstration_76.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Push Coaster To Mug</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos10_PutBananaOnSaucer_demonstration_182.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Banana On Saucer</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos11_PutKiwiInCenterOfTable_demonstration_132.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Kiwi In Center Of Table</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos12_PutMugOnSaucer_demonstration_171.mp4" type="video/mp4">
+                </video>
+                <div class="video-caption">Put Mug On Saucer</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos13_PutSpatulaInUtensilCrock_demonstration_169.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Put Spatula In Utensil Crock</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos14_TurnCupUpsideDown_demonstration_107.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Turn Cup Upside Down</div>
+            </div>
+            <div class="carousel-video-wrapper">
+                <video class="carousel-video" autoplay loop muted playsinline>
+                    <source src="assets/carousel_failure/pos15_TurnMugRightsideUp_demonstration_15.mp4"
+                        type="video/mp4">
+                </video>
+                <div class="video-caption">Turn Mug Rightside Up</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Single carousel with switchable video sources
+        let currentVideo = 0;
+        let currentType = 'success'; // 'success' or 'failure'
+
+        const videoWrappers = document.querySelectorAll('#carousel-track .carousel-video-wrapper');
+        const dotsContainer = document.getElementById('carousel-dots');
+        const track = document.getElementById('carousel-track');
+
+        // Video file mappings
+        const videoFiles = [
+            { success: 'pos00_BimanualPlaceAppleFromBowlIntoBin_demonstration_36.mp4', failure: 'pos00_BimanualPlaceAppleFromBowlIntoBin_demonstration_14.mp4' },
+            { success: 'pos01_BimanualPlaceFruitFromBowlIntoBin_demonstration_101.mp4', failure: 'pos01_BimanualPlaceFruitFromBowlIntoBin_demonstration_61.mp4' },
+            { success: 'pos02_BimanualPutRedBellPepperInBin_demonstration_113.mp4', failure: 'pos02_BimanualPutRedBellPepperInBin_demonstration_117.mp4' },
+            { success: 'pos03_BimanualPutSpatulaOnPlateFromDryingRack_demonstration_16.mp4', failure: 'pos03_BimanualPutSpatulaOnPlateFromDryingRack_demonstration_109.mp4' },
+            { success: 'pos04_BimanualPutSpatulaOnPlateFromTable_demonstration_196.mp4', failure: 'pos04_BimanualPutSpatulaOnPlateFromTable_demonstration_114.mp4' },
+            { success: 'pos05_BimanualStackPlatesOnTableFromDryingRack_demonstration_3.mp4', failure: 'pos05_BimanualStackPlatesOnTableFromDryingRack_demonstration_44.mp4' },
+            { success: 'pos06_BimanualStoreCerealBoxUnderShelf_demonstration_143.mp4', failure: 'pos06_BimanualStoreCerealBoxUnderShelf_demonstration_44.mp4' },
+            { success: 'pos07_PlaceCupByCoaster_demonstration_41.mp4', failure: 'pos07_PlaceCupByCoaster_demonstration_1.mp4' },
+            { success: 'pos08_PushCoasterToCenterOfTable_demonstration_94.mp4', failure: 'pos08_PushCoasterToCenterOfTable_demonstration_46.mp4' },
+            { success: 'pos09_PushCoasterToMug_demonstration_23.mp4', failure: 'pos09_PushCoasterToMug_demonstration_76.mp4' },
+            { success: 'pos10_PutBananaOnSaucer_demonstration_122.mp4', failure: 'pos10_PutBananaOnSaucer_demonstration_182.mp4' },
+            { success: 'pos11_PutKiwiInCenterOfTable_demonstration_51.mp4', failure: 'pos11_PutKiwiInCenterOfTable_demonstration_132.mp4' },
+            { success: 'pos12_PutMugOnSaucer_demonstration_91.mp4', failure: 'pos12_PutMugOnSaucer_demonstration_171.mp4' },
+            { success: 'pos13_PutSpatulaInUtensilCrock_demonstration_162.mp4', failure: 'pos13_PutSpatulaInUtensilCrock_demonstration_169.mp4' },
+            { success: 'pos14_TurnCupUpsideDown_demonstration_141.mp4', failure: 'pos14_TurnCupUpsideDown_demonstration_107.mp4' },
+            { success: 'pos15_TurnMugRightsideUp_demonstration_47.mp4', failure: 'pos15_TurnMugRightsideUp_demonstration_15.mp4' }
+        ];
+
+        // Create dots
+        videoWrappers.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+            dot.onclick = () => showVideo(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        // Add controls to each video wrapper
+        videoWrappers.forEach((wrapper, index) => {
+            const video = wrapper.querySelector('video');
+
+            // Create controls
+            const controls = document.createElement('div');
+            controls.className = 'video-controls';
+            controls.innerHTML = `
+                <button class="play-pause-btn">⏸️</button>
+                <button class="restart-btn">↻</button>
+                <div class="video-scrubber">
+                    <div class="video-scrubber-progress"></div>
+                </div>
+            `;
+            wrapper.appendChild(controls);
+
+            const playPauseBtn = controls.querySelector('.play-pause-btn');
+            const restartBtn = controls.querySelector('.restart-btn');
+            const scrubber = controls.querySelector('.video-scrubber');
+            const progress = controls.querySelector('.video-scrubber-progress');
+
+            // Play/Pause
+            playPauseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.textContent = '⏸️';
+                } else {
+                    video.pause();
+                    playPauseBtn.textContent = '▶️';
+                }
+            });
+
+            // Restart
+            restartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                video.currentTime = 0;
+                video.play();
+                playPauseBtn.textContent = '⏸️';
+            });
+
+            // Scrubber - click and drag
+            let isDragging = false;
+
+            const seek = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = scrubber.getBoundingClientRect();
+                const pos = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                if (video.readyState >= 2 && !isNaN(video.duration) && video.duration > 0) {
+                    video.currentTime = pos * video.duration;
+                }
+            };
+
+            scrubber.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                isDragging = true;
+                video.pause();
+                seek(e);
+            });
+
+            scrubber.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    seek(e);
+                }
+            });
+
+            scrubber.addEventListener('mouseup', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    isDragging = false;
+                    video.play();
+                }
+            });
+
+            scrubber.addEventListener('mouseleave', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    video.play();
+                }
+            });
+
+            // Update progress
+            video.addEventListener('timeupdate', () => {
+                const percent = (video.currentTime / video.duration) * 100;
+                progress.style.width = percent + '%';
+            });
+
+            // Update button when video ends (but videos loop, so this rarely triggers)
+            video.addEventListener('ended', () => {
+                playPauseBtn.textContent = '▶️';
+            });
+        });
+
+        // Initialize first video as active
+        videoWrappers[0].classList.add('active');
+        updateCarousel();
+
+        function updateVideoSources() {
+            const folder = currentType === 'success' ? 'carousel_success' : 'carousel_failure';
+
+            // Preload all videos before swapping
+            let loadedCount = 0;
+            const totalVideos = videoWrappers.length;
+
+            videoWrappers.forEach((wrapper, index) => {
+                const videoElement = wrapper.querySelector('video');
+                const source = videoElement.querySelector('source');
+                const filename = videoFiles[index][currentType];
+
+                // Create new source
+                source.src = `assets/${folder}/${filename}`;
+
+                // Wait for metadata to load
+                const onLoad = () => {
+                    loadedCount++;
+                    if (loadedCount === totalVideos) {
+                        // All videos loaded, now play them
+                        videoWrappers.forEach(w => {
+                            const v = w.querySelector('video');
+                            v.play().catch(e => console.log('Autoplay prevented:', e));
+                        });
+                    }
+                };
+
+                videoElement.addEventListener('loadedmetadata', onLoad, { once: true });
+                videoElement.load();
+            });
+        }
+
+        function updateCarousel() {
+            const containerWidth = track.parentElement.offsetWidth;
+            const currentWrapper = videoWrappers[currentVideo];
+            const wrapperLeft = currentWrapper.offsetLeft;
+            const wrapperWidth = currentWrapper.offsetWidth;
+            const offset = (containerWidth / 2) - (wrapperLeft + wrapperWidth / 2);
+            track.style.transform = `translateX(${offset}px)`;
+
+            videoWrappers.forEach((wrapper, i) => {
+                wrapper.classList.toggle('active', i === currentVideo);
+            });
+
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentVideo);
+            });
+        }
+
+        function showVideo(index) {
+            currentVideo = index;
+            updateCarousel();
+        }
+
+        function nextVideo() {
+            showVideo((currentVideo + 1) % videoWrappers.length);
+        }
+
+        function prevVideo() {
+            showVideo((currentVideo - 1 + videoWrappers.length) % videoWrappers.length);
+        }
+
+        // Toggle between success and failure
+        const toggleBtns = document.querySelectorAll('.rollout-toggle-btn');
+
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.type;
+
+                // Update button states
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update video sources
+                currentType = type;
+                updateVideoSources();
+            });
+        });
+
+        // Fade-in on scroll
+        const observerOptions = {
+            threshold: 0.05,
+            rootMargin: '0px 0px 50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Zoom-in on scroll for images
+        const zoomObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.zoom-in').forEach(el => zoomObserver.observe(el));
+
+        // Stagger animation for feature cards
+        const staggerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const cards = entry.target.querySelectorAll('.stagger-item');
+                    cards.forEach((card, index) => {
+                        setTimeout(() => {
+                            card.classList.add('visible');
+                        }, index * 100); // 100ms delay between each card
+                    });
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observe the features container
+        const featuresContainer = document.querySelector('.features');
+        if (featuresContainer) {
+            staggerObserver.observe(featuresContainer);
+        }
+    </script>
+
+    <div class="container">
+        <div class="content-section" style="padding-top: 2rem; padding-bottom: 1rem;">
+            <h2>More Resources</h2>
+            <div class="buttons" style="margin-top: 1rem; margin-bottom: 0;">
+                <a href="https://github.com/TRI-ML/vla_foundry" class="btn btn-primary" target="_blank"
+                    rel="noopener noreferrer">
+                    💻 Code
+                </a>
+                <a href="vla_foundry_technical_report.pdf" class="btn btn-primary">
+                    📄 Technical Report (arXiv coming soon)
+                </a>
+                <a href="https://huggingface.co/collections/TRI-ML/vla-foundry" class="btn btn-primary" target="_blank"
+                    rel="noopener noreferrer">
+                    🤗 Multi-task Model Weights
+                </a>
+                <a href="docs/" class="btn btn-primary">
+                    📚 Documentation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content-section" style="padding-top: 1rem;">
+            <h3 style="font-size: 1.5rem; color: #8B0F1F; margin-bottom: 1rem; text-align: left;">BibTeX Citation</h3>
+
+            <h4 style="font-size: 1.2rem; color: #555; margin-bottom: 0.5rem; margin-top: 1.5rem; text-align: left;">
+                Technical Report</h4>
+            <pre
+                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; line-height: 1.6;">
+@techreport{mercat2026vlafoundry,
+  title       = {{VLA Foundry}: A Unified Framework for Training Vision-Language-Action Models},
+  author      = {Mercat, Jean and Keh, Sedrick and Arora, Kushal and Huang, Isabella and Shah, Paarth and Nishimura, Haruki and Iwase, Shun and Liu, Katherine},
+  year        = {2026},
+  institution = {Toyota Research Institute},
+  note        = {Jean Mercat and Sedrick Keh contributed equally}
+}</pre>
+
+            <h4 style="font-size: 1.2rem; color: #555; margin-bottom: 0.5rem; margin-top: 1.5rem; text-align: left;">
+                Software</h4>
+            <pre
+                style="background: #f5f5f5; padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-size: 0.9rem; line-height: 1.6;">
+@software{mercat2026vlafoundry_code,
+  title   = {{VLA Foundry}: A Unified Framework for Training Vision-Language-Action Models},
+  author  = {Mercat, Jean and Keh, Sedrick and Arora, Kushal and Huang, Isabella and Shah, Paarth and Nishimura, Haruki and Iwase, Shun and Liu, Katherine},
+  year    = {2026},
+  url     = {https://github.com/TRI-ML/vla_foundry},
+  version = {1.0.0}
+}</pre>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Toyota Research Institute.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+# 100M backbone VLA with diffusion policy. Uses vlm_foundry_backbone (loaded from checkpoint
+# at runtime) with an 11M diffusion transformer head.
+type: diffusion_policy
+vision_language_backbone:
+  type: vlm_foundry_backbone
+  num_vlm_layers_to_use: 4
+transformer:
+  <<: !include transformer_11m.yaml
+  is_causal: false
+noise_scheduler:
+  num_timesteps: 1000
+  beta_start: 0.0001
+  beta_end: 0.02
+  clamp_range: [-3, 3]
+use_flow_matching_scheduler: true

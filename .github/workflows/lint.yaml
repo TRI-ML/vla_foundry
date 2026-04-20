@@ -1,0 +1,33 @@
+# .github/workflows/lint.yml
+name: Lint
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Checkout PR code (always run)
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - name: Install the latest version of uv
+      # See https://github.com/astral-sh/setup-uv
+      uses: astral-sh/setup-uv@v6
+      with:
+        version: "latest"
+        enable-cache: true
+
+    - name: Run ruff
+      run: |
+        # See https://docs.astral.sh/uv/guides/tools/#running-tools
+        uv run ruff format --check
+        uv run ruff check

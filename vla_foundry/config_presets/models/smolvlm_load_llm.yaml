@@ -1,0 +1,3 @@
+type: vlm
+transformer: !include transformer_1b.yaml
+vit: !include vit_smolvlm2_256m_224.yaml
