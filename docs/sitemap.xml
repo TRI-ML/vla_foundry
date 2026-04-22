@@ -2,118 +2,118 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/contributing/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/faq/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/tutorials/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/concepts/architecture/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/concepts/configuration/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/concepts/data-format/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/concepts/distributed-training/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/concepts/training-loop/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/examples/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/examples/preprocessing/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/examples/training/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/getting-started/installation/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/getting-started/quickstart/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/guides/adding-new-models/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/guides/data-preprocessing/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/guides/deployment/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/guides/lbm-pipeline/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/guides/robotics-data/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/config-presets/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/models/diffusion-policy/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/models/overview/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/models/transformer/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/models/vlm/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/params/data-params/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/params/hyper-params/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/params/model-params/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/params/overview/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
     <url>
          <loc>https://tri-ml.github.io/vla_foundry/reference/params/train-experiment/</loc>
-         <lastmod>2026-04-20</lastmod>
+         <lastmod>2026-04-22</lastmod>
     </url>
 </urlset>
