@@ -27,13 +27,13 @@ jobs:
       - name: Copy homepage and assets
         run: |
           cp index.html _site/
-          cp vla_foundry_technical_report.pdf _site/
           mkdir -p _site/assets
           mkdir -p _site/assets/carousel_failure
           mkdir -p _site/assets/carousel_success
           cp docs/assets/logo_dark.svg _site/assets/
           cp docs/assets/logo.svg _site/assets/
           cp docs/assets/tri-logo-dark.png _site/assets/
+          cp docs/assets/arxiv-logo.svg _site/assets/
           cp docs/assets/favicon.png _site/assets/
           cp docs/assets/llm_vlm_vla.png _site/assets/
           cp docs/assets/hf_model_support.png _site/assets/
