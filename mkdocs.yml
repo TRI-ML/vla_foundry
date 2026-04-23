@@ -88,7 +88,7 @@ extra_css:
   - stylesheets/extra.css
 
 extra:
-  homepage: ../
+  homepage: https://tri-ml.github.io/vla_foundry/
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/TRI-ML/vla_foundry
