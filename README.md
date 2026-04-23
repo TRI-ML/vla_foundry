@@ -351,7 +351,6 @@ Technical Report:
   author      = {Mercat, Jean and Keh, Sedrick and Arora, Kushal and Huang, Isabella and Shah, Paarth and Nishimura, Haruki and Iwase, Shun and Liu, Katherine},
   year        = {2026},
   institution = {Toyota Research Institute},
-  note        = {Jean Mercat and Sedrick Keh contributed equally}
 }
 ```
 
