@@ -55,16 +55,7 @@ class BaseModel(nn.Module, metaclass=BaseModelMeta):
         # vlm_foundry_backbone constructor can resolve vlm_config_model.yaml
         # from the published repo on its own.
         config_path = f"{path}/config.yaml" if not path.endswith(".yaml") else path
-        # localize_params rewrites s3:// entries in the loaded config to sibling
-        # files next to config.yaml (when they exist), so a locally-synced
-        # training directory doesn't require AWS credentials just to read its
-        # preprocessing_config / stats.json. Skip for S3-hosted configs; those
-        # are already remote, and we can't localize what we can't fetch.
-        train_params = load_params_from_yaml(
-            TrainExperimentParams,
-            config_path,
-            localize_params=not config_path.startswith("s3://"),
-        )
+        train_params = load_params_from_yaml(TrainExperimentParams, config_path)
 
         model = create_model(train_params.model, load_pretrained=False)
 

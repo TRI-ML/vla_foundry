@@ -79,9 +79,7 @@ class InferenceDiffusionPolicy(Policy):
         self.model_config_path = f"{checkpoint_directory}/config.yaml"
 
         # Load model configuration first to get EMA enabled setting
-        self.cfg = load_experiment_params_from_yaml(
-            self.model_config_path, localize_params=not self.model_config_path.startswith("s3://")
-        )
+        self.cfg = load_experiment_params_from_yaml(self.model_config_path)
         self.ema_enabled = self.cfg.ema.enabled
 
         if checkpoint_name is None or checkpoint_name == "":
@@ -109,9 +107,7 @@ class InferenceDiffusionPolicy(Policy):
         self.gripper_debounce_close_threshold = gripper_debounce_close_threshold
 
         # Reload the config (the second call overwrites self.cfg via draccus).
-        self.cfg = load_experiment_params_from_yaml(
-            self.model_config_path, localize_params=not self.model_config_path.startswith("s3://")
-        )
+        self.cfg = load_experiment_params_from_yaml(self.model_config_path)
         # Use load_pretrained=False to skip downloading pretrained weights (they'll be loaded from checkpoint)
         self.model = create_model(self.cfg.model, load_pretrained=False)
 

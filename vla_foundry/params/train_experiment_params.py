@@ -166,7 +166,9 @@ class TrainExperimentParams(BaseParams):
         #     raise ValueError(f"--fsdp can only be specified in distributed mode.")
 
 
-def load_params_from_yaml(params_class: type[BaseParams], path: str, localize_params: bool = False) -> BaseParams:
+def load_params_from_yaml(
+    params_class: type[BaseParams], path: str, localize_params: bool | None = None
+) -> BaseParams:
     """
     Load a draccus params object from a yaml file with support for s3 and hf:// paths.
 
@@ -178,13 +180,18 @@ def load_params_from_yaml(params_class: type[BaseParams], path: str, localize_pa
     Args:
         params_class: dataclass type to load.
         path: local filesystem path, S3 URI, or ``hf://repo_id/file.yaml`` to the YAML file.
-        localize_params: if True, first localize all paths in the config before loading.
+        localize_params: if True, localize S3 paths inside the config to local siblings
+            when they exist. If None (the default), auto-detect: localize when the config
+            itself is local, skip when it lives on S3.
     """
     original_path = path
 
     # Resolve hf:// paths to local cache before anything else
     if path.startswith("hf://"):
         path = _resolve_hf_path(path)
+
+    if localize_params is None:
+        localize_params = not original_path.startswith("s3://")
 
     if localize_params:
         config_dict = yaml_load(path)
@@ -240,9 +247,10 @@ def get_config_origin(params_obj) -> str | None:
     return _ORIGIN_BY_ID.get(id(params_obj))
 
 
-def load_experiment_params_from_yaml(path: str, localize_params: bool = False) -> TrainExperimentParams:
+def load_experiment_params_from_yaml(path: str, localize_params: bool | None = None) -> TrainExperimentParams:
     """
     Convenience wrapper to load `TrainExperimentParams` from YAML.
-    If `localize_params` is True, first localize all paths in the config before loading.
+    If `localize_params` is None (the default), auto-detect: localize when the config
+    is local, skip when it lives on S3.
     """
     return load_params_from_yaml(TrainExperimentParams, path, localize_params)
