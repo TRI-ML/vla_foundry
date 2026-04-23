@@ -343,7 +343,28 @@ For AWS S3, this is currently not set up and is generally not recommended (we wa
 The `HF_TOKEN` is set up already on upstream. However, this may not be set up on individual forks. To add your own `HF_TOKEN` to individual forks, you can add it in "Settings". See [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 
 ## Citation
-Coming soon.
+
+Technical Report:
+```bibtex
+@techreport{mercat2026vlafoundry,
+  title       = {{VLA Foundry}: A Unified Framework for Training Vision-Language-Action Models},
+  author      = {Mercat, Jean and Keh, Sedrick and Arora, Kushal and Huang, Isabella and Shah, Paarth and Nishimura, Haruki and Iwase, Shun and Liu, Katherine},
+  year        = {2026},
+  institution = {Toyota Research Institute},
+  note        = {Jean Mercat and Sedrick Keh contributed equally}
+}
+```
+
+Software:
+```bibtex
+@software{mercat2026vlafoundry_code,
+  title   = {{VLA Foundry}: A Unified Framework for Training Vision-Language-Action Models},
+  author  = {Mercat, Jean and Keh, Sedrick and Arora, Kushal and Huang, Isabella and Shah, Paarth and Nishimura, Haruki and Iwase, Shun and Liu, Katherine},
+  year    = {2026},
+  url     = {https://github.com/TRI-ML/vla_foundry},
+  version = {1.0.0}
+}
+```
 
 ## Acknowledgements
 Parts of this repo were built from parts of [open_clip](https://github.com/mlfoundations/open_clip), [open_lm](https://github.com/mlfoundations/open_lm), and [nanoVLM](https://github.com/huggingface/nanoVLM/tree/main).
