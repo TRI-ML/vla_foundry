@@ -6,7 +6,8 @@ hide:
 
 <div class="hero" markdown>
 
-![VLA Foundry](assets/logo.svg){ width="600" }
+<img src="assets/logo.svg" alt="VLA Foundry" class="hero-logo hero-logo--light" width="600">
+<img src="assets/logo_dark.svg" alt="VLA Foundry" class="hero-logo hero-logo--dark" width="600">
 
 A framework for training **Vision-Language-Action** models.
 Train LLMs, VLMs, and VLAs — all in one place with pure PyTorch.

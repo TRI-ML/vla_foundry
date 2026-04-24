@@ -44,6 +44,17 @@
   margin-bottom: 1rem;
 }
 
+/* Hero logo theme swap */
+.hero-logo--dark {
+  display: none;
+}
+[data-md-color-scheme="slate"] .hero-logo--light {
+  display: none;
+}
+[data-md-color-scheme="slate"] .hero-logo--dark {
+  display: inline-block;
+}
+
 .hero p {
   font-size: 1.15rem;
   color: var(--md-typeset-color);
