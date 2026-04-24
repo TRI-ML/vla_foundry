@@ -9,7 +9,8 @@
      title="{{ config.site_name | e }}"
      class="md-header__button md-logo"
      aria-label="{{ config.site_name }}"
-     data-md-component="logo">
+     data-md-component="logo"
+     data-no-instant>
     {% include "partials/logo.html" %}
   </a>
 {% endblock %}
@@ -18,14 +19,25 @@
   {{ super() }}
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      var homepageUrl = '{{ config.extra.homepage | d(nav.homepage.url, true) | url }}';
       // Make the header title clickable
       var headerTitle = document.querySelector('.md-header__title');
       if (headerTitle) {
         headerTitle.style.cursor = 'pointer';
-        headerTitle.addEventListener('click', function() {
-          window.location.href = '{{ config.extra.homepage | d(nav.homepage.url, true) | url }}';
+        headerTitle.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.assign(homepageUrl);
         });
       }
+      // Force a full navigation on logo clicks so instant-nav doesn't intercept
+      document.querySelectorAll('a.md-logo, a.md-header__button.md-logo, .md-nav__title a.md-logo').forEach(function(a) {
+        a.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.assign(homepageUrl);
+        });
+      });
     });
   </script>
 {% endblock %}
