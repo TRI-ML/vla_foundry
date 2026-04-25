@@ -5,10 +5,14 @@
 </picture>
 
 
-[![License](https://img.shields.io/github/license/TRI-ML/vla_foundry?color=blue)](https://github.com/TRI-ML/vla_foundry/blob/main/LICENSE)
-[![Release](https://img.shields.io/github/v/release/TRI-ML/vla_foundry?color=green)](https://github.com/TRI-ML/vla_foundry/releases)
-[![GitHub Repo stars](https://img.shields.io/github/stars/TRI-ML/vla_foundry?color=yellow)](https://github.com/TRI-ML/vla_foundry/stargazers)
-[![GitHub contributors](https://img.shields.io/github/contributors/TRI-ML/vla_foundry?color=orange)](https://github.com/TRI-ML/vla_foundry/graphs/contributors)
+<p align="center">
+  <a href="https://arxiv.org/abs/2604.19728"><img src="https://img.shields.io/badge/arXiv-2604.19728-b31b1b.svg" alt="arXiv"></a>
+  <a href="https://tri-ml.github.io/vla_foundry/"><img src="https://img.shields.io/badge/🌐-Website-blue" alt="Website"></a>
+  <a href="https://huggingface.co/collections/TRI-ML/vla-foundry"><img src="https://img.shields.io/badge/🤗-Multi--task_Model_Weights-yellow" alt="HuggingFace Models"></a>
+  <a href="https://github.com/TRI-ML/vla_foundry/blob/main/LICENSE"><img src="https://img.shields.io/github/license/TRI-ML/vla_foundry?color=blue" alt="License"></a>
+  <a href="https://github.com/TRI-ML/vla_foundry/stargazers"><img src="https://img.shields.io/github/stars/TRI-ML/vla_foundry?color=yellow" alt="GitHub Repo stars"></a>
+  <a href="https://github.com/TRI-ML/vla_foundry/graphs/contributors"><img src="https://img.shields.io/github/contributors/TRI-ML/vla_foundry?color=orange" alt="GitHub contributors"></a>
+</p>
 
 # VLA Foundry
 VLA Foundry is a framework for training Vision-Language-Action models. We support the following:
