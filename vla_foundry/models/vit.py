@@ -4,6 +4,7 @@ import torch.nn as nn
 
 from vla_foundry.models.base_model import BaseModel
 from vla_foundry.params.model_params import ViTParams
+from vla_foundry.positional_embedding import RotaryWithCast
 
 
 # https://github.com/huggingface/transformers/blob/main/src/transformers/models/siglip/modeling_siglip.py#L245
@@ -27,10 +28,6 @@ class ViTPatchEmbeddings(nn.Module):
 
         if self.cls_flag:
             self.cls_token = nn.Parameter(torch.zeros(1, 1, self.embd_dim))
-            # TODO: initialize position embedding as rotary embeddings
-            self.position_embedding = nn.Parameter(torch.rand(1, self.num_patches + 1, self.embd_dim))
-        else:
-            self.position_embedding = nn.Parameter(torch.rand(1, self.num_patches, self.embd_dim))
 
     def forward(self, x):
         # x shape [bsz, 3, 224, 224]
@@ -43,7 +40,7 @@ class ViTPatchEmbeddings(nn.Module):
             cls_token = self.cls_token.expand(x.shape[0], -1, -1)
             x = torch.cat((cls_token, x), dim=1)
 
-        x = x + self.position_embedding
+        # move the position embedding to the attention stage using RoPE
         return x
 
 
@@ -62,6 +59,11 @@ class ViTMultiHeadAttention(nn.Module):
         self.qkv_proj = nn.Linear(self.embd_dim, 3 * self.embd_dim, bias=True)
         self.out_proj = nn.Linear(self.embd_dim, self.embd_dim, bias=True)
 
+        num_patches = (
+            model_params.img_size // model_params.patch_size
+        ) ** 2  # assuming img_size can be divided by patch_size
+        self.pos_embed = RotaryWithCast(self.head_dim, num_patches)
+
         # Dropout layers
         self.attn_dropout = nn.Dropout(self.dropout)
         self.resid_dropout = nn.Dropout(self.dropout)
@@ -75,6 +77,9 @@ class ViTMultiHeadAttention(nn.Module):
         q = q.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)  # (B, n_heads, T, head_dim)
         k = k.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)  # (B, n_heads, T, head_dim)
         v = v.view(B, T, self.n_heads, self.head_dim).transpose(1, 2)  # (B, n_heads, T, head_dim)
+
+        # use rotary embedding
+        q, k, v = self.pos_embed(q, k, v, offset=0)  # assuming no kv cache for now
 
         y = torch.nn.functional.scaled_dot_product_attention(
             q,
