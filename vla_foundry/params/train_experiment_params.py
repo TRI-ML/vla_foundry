@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 import yaml
 
 from vla_foundry.data.utils import epochs_to_samples
+from vla_foundry.models import utils
 from vla_foundry.file_utils import localize_paths, yaml_load
 from vla_foundry.hf_hub import resolve_hf_path as _resolve_hf_path
 from vla_foundry.params.base_params import BaseParams
@@ -164,6 +165,10 @@ class TrainExperimentParams(BaseParams):
         # Commenting out for now.
         # if self.distributed.fsdp and not self.distributed.use_distributed:
         #     raise ValueError(f"--fsdp can only be specified in distributed mode.")
+
+        if self.model.type == "vlm":
+            img_tok_warning = "parameter img_num_tokens is expected to be equal to the patches count divided by square of projector_pixel_shuffle_factor."
+            assert self.data.img_num_tokens == utils.compute_num_image_tokens(self.model.vit), img_tok_warning
 
 
 def load_params_from_yaml(params_class: type[BaseParams], path: str, localize_params: bool = False) -> BaseParams:
