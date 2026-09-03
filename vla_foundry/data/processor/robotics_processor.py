@@ -6,6 +6,7 @@ import numpy as np
 import torch
 
 from vla_foundry.data.processor import apply_chat_template, get_processor
+from vla_foundry.data.processor.text_limits import infer_max_text_seq_len
 from vla_foundry.data.robotics.normalization import RoboticsNormalizer
 from vla_foundry.file_utils import json_load
 from vla_foundry.params.data_params import RoboticsDataParams
@@ -159,6 +160,9 @@ class RoboticsProcessor:
             batch: Batch of samples to convert to tensors.
             image_names: Automatically generated from camera_names and image_indices in the data_params.
         """
+        if max_text_seq_len is None:
+            max_text_seq_len = infer_max_text_seq_len(self.vlm_processor)
+
         batch_text, batch_images, batch_attention_mask_images = [], [], []
         for sample_images, instruction in zip(batch["images"], batch["language_instruction"], strict=False):
             if image_names is None or len(image_names) == 0:
