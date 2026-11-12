@@ -94,7 +94,7 @@ Located in `vla_foundry/config_presets/data/`.
 
 | Preset | Type | Description | File |
 |--------|------|-------------|------|
-| `diffusion_policy.yaml` | `robotics` | Base robotics data params for Diffusion Policy (CLIP processor, 1 past + 14 future timesteps) | `config_presets/data/diffusion_policy.yaml` |
+| `diffusion_policy.yaml` | `robotics` | Base robotics data params for Diffusion Policy (CLIP processor, 77 text tokens, 1 past + 14 future timesteps) | `config_presets/data/diffusion_policy.yaml` |
 | `vla_diffusion.yaml` | `robotics` | VLA Diffusion data params (PaliGemma2 processor, 224px, 256 img tokens, seq_len 2048) | `config_presets/data/vla_diffusion.yaml` |
 
 ### LBM (Large Behavior Model)

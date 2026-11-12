@@ -1,6 +1,8 @@
 type: robotics
 image_size: 224
 processor: openai/clip-vit-base-patch32
+# Match the CLIP text encoder's position limit, including special tokens.
+max_text_seq_len: 77
 processor_kwargs:
   size:
     height: 224

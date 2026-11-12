@@ -70,6 +70,8 @@ data:
     centered_norm: true
   image_size: 224
   processor: "openai/clip-vit-base-patch32"
+  # Match the CLIP text encoder's position limit, including special tokens.
+  max_text_seq_len: 77
   img_num_tokens: 64 #TODO: verify this with LBM1
   allow_multiple_epochs: True
   seq_len: 2048 # What even is this??
